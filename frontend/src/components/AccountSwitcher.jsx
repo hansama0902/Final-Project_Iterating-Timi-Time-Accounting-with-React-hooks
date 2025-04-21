@@ -1,5 +1,4 @@
-// AccountSwitcher.jsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { Dropdown, Button, Badge } from "react-bootstrap";
 import UserManagement from "./UserManagement";
@@ -12,7 +11,9 @@ const AccountSwitcher = ({ currentUser, onSwitch }) => {
   const [selectedUser, setSelectedUser] = useState(
     currentUser || "Select Account"
   );
-
+  const dropdownToggleRef = useRef(null);
+  const manageButtonRef = useRef(null);
+  
   const loadUsers = async () => {
     try {
       const users = await fetchUsers();
@@ -32,6 +33,14 @@ const AccountSwitcher = ({ currentUser, onSwitch }) => {
     setSelectedUser(user);
     onSwitch(user);
   };
+  
+  const handleKeyDown = (e, user) => {
+    // Enter or Space key to select user
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleSwitch(user);
+    }
+  };
 
   return (
     <div className="account-switcher">
@@ -46,7 +55,12 @@ const AccountSwitcher = ({ currentUser, onSwitch }) => {
 
       <div className="account-actions">
         <Dropdown className="account-dropdown">
-          <Dropdown.Toggle variant="primary" className="account-toggle">
+          <Dropdown.Toggle 
+            variant="primary" 
+            className="account-toggle"
+            ref={dropdownToggleRef}
+            aria-label="Select User Account"
+          >
             <i className="fa fa-user-circle"></i>
             <span className="toggle-text">{selectedUser}</span>
           </Dropdown.Toggle>
@@ -56,8 +70,11 @@ const AccountSwitcher = ({ currentUser, onSwitch }) => {
                 <Dropdown.Item
                   key={user}
                   onClick={() => handleSwitch(user)}
+                  onKeyDown={(e) => handleKeyDown(e, user)}
                   active={user === selectedUser}
                   className="account-item"
+                  tabIndex={0}
+                  aria-selected={user === selectedUser}
                 >
                   {user}
                 </Dropdown.Item>
@@ -74,6 +91,8 @@ const AccountSwitcher = ({ currentUser, onSwitch }) => {
           variant="outline-primary"
           onClick={() => setShowUserModal(true)}
           className="account-button"
+          ref={manageButtonRef}
+          aria-label="Manage Users"
         >
           Manage Users
         </Button>
@@ -81,7 +100,10 @@ const AccountSwitcher = ({ currentUser, onSwitch }) => {
 
       <UserManagement
         show={showUserModal}
-        onClose={() => setShowUserModal(false)}
+        onClose={() => {
+          setShowUserModal(false);
+          manageButtonRef.current?.focus();
+        }}
         onUserChange={(user) => {
           handleSwitch(user);
           loadUsers();

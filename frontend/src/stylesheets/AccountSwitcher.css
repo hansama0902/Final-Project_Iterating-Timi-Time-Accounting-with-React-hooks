@@ -142,3 +142,16 @@
     width: 100%;
   }
 }
+
+
+/* 在AccountSwitcher.css中添加以下样式 */
+
+/* 焦点状态样式 */
+.account-toggle:focus,
+.account-item:focus,
+.account-button:focus {
+  outline: 2px solid #0d6efd;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+}
+

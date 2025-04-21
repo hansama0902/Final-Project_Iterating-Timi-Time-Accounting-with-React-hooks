@@ -1,5 +1,5 @@
 // Login.jsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { Modal, Form, Button, Alert } from "react-bootstrap";
 import { fetchUsers, createUser } from "../utils/api";
@@ -15,7 +15,12 @@ const Login = ({ onLogin }) => {
   const [userList, setUserList] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [filteredUsers, setFilteredUsers] = useState([]);
+  const [dropdownFocusIndex, setDropdownFocusIndex] = useState(-1);
 
+  // Refs for keyboard navigation
+  const inputRef = useRef(null);
+  const dropdownRef = useRef(null);
+  
   useEffect(() => {
     const loadUsers = async () => {
       try {
@@ -39,7 +44,22 @@ const Login = ({ onLogin }) => {
     } else {
       setFilteredUsers(userList);
     }
+    
+    // Reset dropdown focus when filtered results change
+    setDropdownFocusIndex(-1);
   }, [username, userList]);
+  
+  // Add this effect to handle scrolling
+  useEffect(() => {
+    if (dropdownFocusIndex >= 0 && showDropdown && filteredUsers.length > 0) {
+      // Find the currently focused element
+      const focusedItem = document.querySelector('.autocomplete-item.focused');
+      if (focusedItem && dropdownRef.current) {
+        // Ensure the element scrolls into view
+        focusedItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }
+    }
+  }, [dropdownFocusIndex, showDropdown, filteredUsers.length]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -83,6 +103,49 @@ const Login = ({ onLogin }) => {
       console.error("Error creating user:", error);
     }
   };
+  
+  // Handle keyboard navigation in dropdown
+  const handleInputKeyDown = (e) => {
+    if (!showDropdown || filteredUsers.length === 0) return;
+    
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        setDropdownFocusIndex(prevIndex => 
+          prevIndex < filteredUsers.length - 1 ? prevIndex + 1 : prevIndex
+        );
+        break;
+        
+      case 'ArrowUp':
+        e.preventDefault();
+        setDropdownFocusIndex(prevIndex => 
+          prevIndex > 0 ? prevIndex - 1 : prevIndex
+        );
+        break;
+        
+      case 'Enter':
+        if (dropdownFocusIndex >= 0 && dropdownFocusIndex < filteredUsers.length) {
+          e.preventDefault();
+          setUsername(filteredUsers[dropdownFocusIndex].userName);
+          setShowDropdown(false);
+          setDropdownFocusIndex(-1);
+        }
+        break;
+        
+      case 'Escape':
+        e.preventDefault();
+        setShowDropdown(false);
+        setDropdownFocusIndex(-1);
+        break;
+        
+      case 'Tab':
+        setShowDropdown(false);
+        break;
+        
+      default:
+        break;
+    }
+  };
 
   return (
     <div className="login-container">
@@ -97,9 +160,11 @@ const Login = ({ onLogin }) => {
         
         <Form onSubmit={handleLogin}>
           <Form.Group className="mb-3">
-            <Form.Label className="input-label">Username</Form.Label>
+            <Form.Label className="input-label" htmlFor="username-input">Username</Form.Label>
             <div className="autocomplete-container">
               <input
+                id="username-input"
+                ref={inputRef}
                 type="text"
                 className="form-control autocomplete-input"
                 placeholder="Type to search users..."
@@ -110,17 +175,22 @@ const Login = ({ onLogin }) => {
                 }}
                 onFocus={() => setShowDropdown(true)}
                 onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
+                onKeyDown={handleInputKeyDown}
               />
               {showDropdown && filteredUsers.length > 0 && (
-                <div className="autocomplete-dropdown">
-                  {filteredUsers.map((user) => (
+                <div 
+                  className="autocomplete-dropdown"
+                  ref={dropdownRef}
+                >
+                  {filteredUsers.map((user, index) => (
                     <div 
                       key={user.userName} 
-                      className="autocomplete-item"
+                      className={`autocomplete-item ${index === dropdownFocusIndex ? 'focused' : ''}`}
                       onClick={() => {
                         setUsername(user.userName);
                         setShowDropdown(false);
                       }}
+                      onMouseEnter={() => setDropdownFocusIndex(index)}
                     >
                       {user.userName}
                     </div>
@@ -167,17 +237,20 @@ const Login = ({ onLogin }) => {
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3">
-              <Form.Label>Username</Form.Label>
+              <Form.Label htmlFor="new-username">Username</Form.Label>
               <Form.Control
+                id="new-username"
                 type="text"
                 placeholder="Enter new username"
                 value={newUsername}
                 onChange={(e) => setNewUsername(e.target.value)}
+                autoFocus
               />
             </Form.Group>
             
             <Form.Group className="mb-3">
               <Form.Check
+                id="new-admin-checkbox"
                 type="checkbox"
                 label="Create as Administrator"
                 checked={newIsAdmin}
@@ -187,10 +260,17 @@ const Login = ({ onLogin }) => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="outline-secondary" onClick={() => setShowCreateModal(false)}>
+          <Button 
+            variant="outline-secondary" 
+            onClick={() => setShowCreateModal(false)}
+          >
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleCreateUser}>
+          <Button 
+            variant="primary" 
+            onClick={handleCreateUser}
+            disabled={!newUsername}
+          >
             Create
           </Button>
         </Modal.Footer>

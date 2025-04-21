@@ -147,3 +147,29 @@ textarea.add-form-control {
     width: 100%;
   }
 }
+
+/* Add to AddForm.css */
+.add-form-control:focus,
+.add-form-submit-button:focus,
+.add-form-cancel-button:focus,
+.toggle-group .btn:focus {
+  outline: 2px solid #0d6efd;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Fixed toggle group for better keyboard navigation */
+.toggle-group {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 360px;
+}
+
+.toggle-group .btn {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}

@@ -1,7 +1,6 @@
-// GoalProgress.jsx
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Card, Button, Form, ProgressBar, Row, Col } from "react-bootstrap";
+import { Card, Button, Form, Row, Col } from "react-bootstrap";
 import useGoal from "../hooks/useGoal";
 import "../stylesheets/GoalProgress.css";
 
@@ -42,6 +41,11 @@ const GoalProgress = ({ userId, balance }) => {
     setIsEditing(false);
   };
 
+  // Progress status description for screen readers
+  const progressDescription = progress >= 100 
+    ? "Goal achieved!" 
+    : `${Math.round(progress)}% complete, need $${Math.max(0, (goalAmount - balance).toFixed(2))} more to reach goal`;
+
   return (
     <Card className="goal-card">
       <Card.Body>
@@ -66,14 +70,23 @@ const GoalProgress = ({ userId, balance }) => {
           <Col md={6} className="goal-progress-col">
             <div className="goal-progress-container">
               <div className="progress-header">
-                <h3 className="progress-label">Progress</h3>
+                <h3 id="progress-label" className="progress-label">Progress</h3>
                 <span className="progress-percentage">{Math.round(progress)}%</span>
               </div>
-              <ProgressBar
-                now={progress}
-                className="goal-progress-bar"
-                variant={progress >= 100 ? "success" : "primary"}
-              />
+              <div className="progress">
+                <div
+                  className={`progress-bar ${progress >= 100 ? 'bg-success' : 'bg-primary'}`}
+                  role="progressbar"
+                  style={{ width: `${progress}%` }}
+                  aria-valuenow={Math.round(progress)}
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-labelledby="progress-label"
+                  aria-label={`Savings goal progress: ${Math.round(progress)}%`}
+                >
+                  <span className="sr-only">{progressDescription}</span>
+                </div>
+              </div>
               <div className="progress-info">
                 {progress < 100 ? (
                   <span>
@@ -91,9 +104,10 @@ const GoalProgress = ({ userId, balance }) => {
           {isEditing ? (
             <Form onSubmit={handleSubmit}>
               <Form.Group className="goal-form-group">
-                <Form.Label className="goal-form-label">Update Goal Amount</Form.Label>
+                <Form.Label className="goal-form-label" htmlFor="goal-amount-input">Update Goal Amount</Form.Label>
                 <div className="goal-input-group">
                   <Form.Control
+                    id="goal-amount-input"
                     type="number"
                     min="0"
                     step="100"

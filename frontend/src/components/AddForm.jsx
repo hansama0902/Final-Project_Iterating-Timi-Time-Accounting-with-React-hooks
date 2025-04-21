@@ -1,7 +1,7 @@
 // AddForm.jsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import { Button, Form, ToggleButtonGroup, ToggleButton, Row, Col } from "react-bootstrap";
+import { Button, Form, Row, Col } from "react-bootstrap";
 import "../stylesheets/AddForm.css";
 
 const AddForm = ({
@@ -15,6 +15,13 @@ const AddForm = ({
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [isIncome, setIsIncome] = useState(true);
+  
+  // Refs for keyboard navigation
+  const amountInputRef = useRef(null);
+  const incomeButtonRef = useRef(null);
+  const expenseButtonRef = useRef(null);
+  const submitButtonRef = useRef(null);
+  const cancelButtonRef = useRef(null);
 
   useEffect(() => {
     if (editingTransaction) {
@@ -23,6 +30,11 @@ const AddForm = ({
       setDescription(editingTransaction.description);
       setDate(editingTransaction.date?.slice(0, 10));
       setIsIncome(editingTransaction.type === "income");
+      
+      // Focus amount input when editing
+      setTimeout(() => {
+        amountInputRef.current?.focus();
+      }, 100);
     } else {
       setAmount("");
       setCategory("");
@@ -65,6 +77,37 @@ const AddForm = ({
       console.error("Error submitting transaction:", error);
     }
   };
+  
+  // Handle keyboard navigation in toggle buttons
+  const handleIncomeKeyDown = (e) => {
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      expenseButtonRef.current?.focus();
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      setIsIncome(true);
+    }
+  };
+  
+  const handleExpenseKeyDown = (e) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      incomeButtonRef.current?.focus();
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      setIsIncome(false);
+    }
+  };
+  
+  // Handle cancel button with keyboard
+  const handleCancel = () => {
+    setAmount("");
+    setCategory("");
+    setDescription("");
+    setDate("");
+    setIsIncome(true);
+    // If you have a cancel editing function, call it here
+  };
 
   return (
     <div className="add-form-wrapper">
@@ -74,37 +117,37 @@ const AddForm = ({
       
       <Form onSubmit={handleSubmit} className="add-form-container">
         <div className="toggle-group-wrapper">
-          <ToggleButtonGroup
-            type="radio"
-            name="transactionType"
-            value={isIncome}
-            onChange={(val) => setIsIncome(val)}
-            className="toggle-group"
-          >
-            <ToggleButton 
-              id="tbg-radio-income" 
-              variant="outline-success" 
-              value={true}
-              className={isIncome ? "active" : ""}
+          <div className="toggle-group" role="group">
+            <button 
+              ref={incomeButtonRef}
+              type="button"
+              className={`btn ${isIncome ? 'btn-success' : 'btn-outline-success'}`}
+              onClick={() => setIsIncome(true)}
+              onKeyDown={handleIncomeKeyDown}
+              tabIndex={0}
             >
               Income
-            </ToggleButton>
-            <ToggleButton 
-              id="tbg-radio-expense" 
-              variant="outline-danger" 
-              value={false}
-              className={!isIncome ? "active" : ""}
+            </button>
+            <button 
+              ref={expenseButtonRef}
+              type="button"
+              className={`btn ${!isIncome ? 'btn-danger' : 'btn-outline-danger'}`}
+              onClick={() => setIsIncome(false)}
+              onKeyDown={handleExpenseKeyDown}
+              tabIndex={0}
             >
               Expense
-            </ToggleButton>
-          </ToggleButtonGroup>
+            </button>
+          </div>
         </div>
 
         <Row>
           <Col md={6}>
             <Form.Group className="add-form-group">
-              <Form.Label>Amount</Form.Label>
+              <Form.Label htmlFor="amount-input">Amount</Form.Label>
               <Form.Control
+                id="amount-input"
+                ref={amountInputRef}
                 type="number"
                 className="add-form-control"
                 value={amount}
@@ -119,8 +162,9 @@ const AddForm = ({
           
           <Col md={6}>
             <Form.Group className="add-form-group">
-              <Form.Label>Date</Form.Label>
+              <Form.Label htmlFor="date-input">Date</Form.Label>
               <Form.Control
+                id="date-input"
                 type="date"
                 className="add-form-control"
                 value={date}
@@ -132,8 +176,9 @@ const AddForm = ({
         </Row>
 
         <Form.Group className="add-form-group">
-          <Form.Label>Category</Form.Label>
+          <Form.Label htmlFor="category-input">Category</Form.Label>
           <Form.Control
+            id="category-input"
             type="text"
             className="add-form-control"
             value={category}
@@ -144,8 +189,9 @@ const AddForm = ({
         </Form.Group>
 
         <Form.Group className="add-form-group">
-          <Form.Label>Description</Form.Label>
+          <Form.Label htmlFor="description-input">Description</Form.Label>
           <Form.Control
+            id="description-input"
             as="textarea"
             rows={2}
             className="add-form-control"
@@ -159,27 +205,29 @@ const AddForm = ({
         <div className="add-form-actions">
           {editingTransaction && (
             <Button
+              ref={cancelButtonRef}
               type="button"
               variant="outline-secondary"
               className="add-form-cancel-button"
-              onClick={() => {
-                setAmount("");
-                setCategory("");
-                setDescription("");
-                setDate("");
-                setIsIncome(true);
-                // Assuming you have a function to cancel editing
-                // onCancelEdit();
+              onClick={handleCancel}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleCancel();
+                }
               }}
+              tabIndex={0}
             >
               Cancel
             </Button>
           )}
           
           <Button
+            ref={submitButtonRef}
             type="submit"
             variant={isIncome ? "success" : "danger"}
             className="add-form-submit-button"
+            tabIndex={0}
           >
             {editingTransaction
               ? "Update Transaction"

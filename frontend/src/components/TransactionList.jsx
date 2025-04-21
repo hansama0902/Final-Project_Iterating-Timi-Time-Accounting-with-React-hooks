@@ -1,5 +1,5 @@
 // TransactionList.jsx
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Table, Button, Badge, Form, InputGroup } from "react-bootstrap";
 import "../stylesheets/TransactionList.css";
@@ -7,6 +7,21 @@ import "../stylesheets/TransactionList.css";
 const TransactionList = ({ transactions, onDelete, onEdit, loading }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all");
+  const searchInputRef = useRef(null);
+  
+  useEffect(() => {
+    // Add focus trap for keyboard navigation
+    function handleKeyDown(e) {
+      // Press / to focus search
+      if (e.key === '/' && document.activeElement !== searchInputRef.current) {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    }
+    
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
   
   if (loading) return (
     <div className="transactions-loading">
@@ -42,8 +57,9 @@ const TransactionList = ({ transactions, onDelete, onEdit, loading }) => {
               <i className="fa fa-search"></i>
             </InputGroup.Text>
             <Form.Control
+              ref={searchInputRef}
               type="text"
-              placeholder="Search by description or category"
+              placeholder="Search by description or category (press / to focus)"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-input"
@@ -55,6 +71,7 @@ const TransactionList = ({ transactions, onDelete, onEdit, loading }) => {
               variant={filterType === "all" ? "primary" : "outline-primary"}
               className="filter-btn"
               onClick={() => setFilterType("all")}
+              tabIndex={0}
             >
               All
             </Button>
@@ -62,6 +79,7 @@ const TransactionList = ({ transactions, onDelete, onEdit, loading }) => {
               variant={filterType === "income" ? "success" : "outline-success"}
               className="filter-btn"
               onClick={() => setFilterType("income")}
+              tabIndex={0}
             >
               Income
             </Button>
@@ -69,6 +87,7 @@ const TransactionList = ({ transactions, onDelete, onEdit, loading }) => {
               variant={filterType === "expense" ? "danger" : "outline-danger"}
               className="filter-btn"
               onClick={() => setFilterType("expense")}
+              tabIndex={0}
             >
               Expenses
             </Button>
@@ -146,6 +165,13 @@ const TransactionList = ({ transactions, onDelete, onEdit, loading }) => {
                           size="sm"
                           className="edit-btn"
                           onClick={() => onEdit(transaction)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              onEdit(transaction);
+                            }
+                          }}
+                          tabIndex={0}
                         >
                           Edit
                         </Button>
@@ -154,6 +180,13 @@ const TransactionList = ({ transactions, onDelete, onEdit, loading }) => {
                           size="sm"
                           className="delete-btn"
                           onClick={() => onDelete(transaction._id)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              onDelete(transaction._id);
+                            }
+                          }}
+                          tabIndex={0}
                         >
                           Delete
                         </Button>

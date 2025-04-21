@@ -13,7 +13,7 @@ import DateRangeFilter from "./components/DateRangeFilter";
 import "./stylesheets/AppHeader.css";
 
 const App = () => {
-  const { userList, currentUser, setCurrentUser } = useUser();
+  const { currentUser, setCurrentUser } = useUser();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const {
@@ -78,79 +78,95 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <div className="app-header">
-        <h1 className="app-title">Timi Time Accounting</h1>
-        <div className="app-controls">
+      <header className="app-header">
+        {/* 应用标题区域 */}
+        <div className="app-branding">
+          <h1 className="app-title">Timi Time Accounting</h1>
+        </div>
+        
+        {/* 用户区域 */}
+        <div className="app-user-section">
           {isAdmin && (
-            <AccountSwitcher
-              userList={userList}
-              currentUser={currentUser}
-              onSwitch={setCurrentUser}
-            />
+            <div className="account-control-area">
+              <AccountSwitcher
+                currentUser={currentUser}
+                onSwitch={setCurrentUser}
+              />
+            </div>
           )}
-          <button className="btn btn-danger logout-btn" onClick={handleLogout}>
+          <button type="button" className="logout-button" onClick={handleLogout}>
             Logout
           </button>
         </div>
-      </div>
+      </header>
 
-      {!currentUser ? (
-        <p className="text-muted text-center mt-3">
-          {isAdmin ? "Please switch your account to view data." : "No user data available."}
-        </p>
-      ) : (
-        <>
-          <DateRangeFilter
-            startDate={startDate}
-            endDate={endDate}
-            onChange={(type, value) => {
-              if (type === "start") setStartDate(value);
-              else setEndDate(value);
-            }}
-          />
+      <main className="app-content">
+        {!currentUser ? (
+          <p className="no-user-message">
+            {isAdmin ? "Please switch your account to view data." : "No user data available."}
+          </p>
+        ) : (
+          <>
+            <section className="filter-section">
+              <DateRangeFilter
+                startDate={startDate}
+                endDate={endDate}
+                onChange={(type, value) => {
+                  if (type === "start") setStartDate(value);
+                  else setEndDate(value);
+                }}
+              />
+            </section>
 
-          <GoalProgress
-            key={currentUser}
-            userId={currentUser}
-            balance={balance}
-          />
+            <section className="overview-section">
+              <div className="overview-row">
+                <Dashboard
+                  key={filteredTransactions.length}
+                  totalIncome={totalIncome}
+                  totalExpenses={totalExpenses}
+                  balance={balance}
+                />
+                
+                <GoalProgress
+                  key={currentUser}
+                  userId={currentUser}
+                  balance={balance}
+                />
+              </div>
+            </section>
 
-          <Dashboard
-            key={filteredTransactions.length}
-            totalIncome={totalIncome}
-            totalExpenses={totalExpenses}
-            balance={balance}
-          />
+            <section className="transaction-section" ref={addFormRef}>
+              <AddForm
+                onTransactionAdded={onTransactionAdded}
+                onTransactionUpdated={onTransactionUpdated}
+                userName={currentUser}
+                editingTransaction={editingTransaction}
+              />
 
-          <div ref={addFormRef}>
-            <AddForm
-              onTransactionAdded={onTransactionAdded}
-              onTransactionUpdated={onTransactionUpdated}
-              userName={currentUser}
-              editingTransaction={editingTransaction}
-            />
-          </div>
+              {loading ? (
+                <div className="loading-indicator">Loading transactions...</div>
+              ) : filteredTransactions.length === 0 ? (
+                <div className="empty-state">
+                  No transactions found.
+                </div>
+              ) : (
+                <TransactionList
+                  transactions={filteredTransactions}
+                  onDelete={onTransactionDeleted}
+                  onEdit={onTransactionEdit}
+                  loading={loading}
+                />
+              )}
+            </section>
 
-          {loading ? (
-            <p className="text-center mt-3">Loading transactions...</p>
-          ) : filteredTransactions.length === 0 ? (
-            <p className="text-muted text-center mt-3">
-              No transactions found.
-            </p>
-          ) : (
-            <TransactionList
-              transactions={filteredTransactions}
-              onDelete={onTransactionDeleted}
-              onEdit={onTransactionEdit}
-              loading={loading}
-            />
-          )}
-
-          {filteredTransactions.length > 0 && (
-            <FinanceChart data={filteredTransactions} />
-          )}
-        </>
-      )}
+            {filteredTransactions.length > 0 && (
+              <section className="chart-section">
+                <FinanceChart data={filteredTransactions} />
+              </section>
+            )}
+          </>
+        )}
+      </main>
     </div>
   );
 };
