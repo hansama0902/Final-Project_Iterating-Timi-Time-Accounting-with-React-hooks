@@ -1,18 +1,20 @@
+// UserManagement.jsx 修改
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Modal, Button, Form, ListGroup, Alert } from "react-bootstrap";
+import { Modal, Button, Form, ListGroup, Alert, Badge } from "react-bootstrap"; // 添加Badge导入
 import { fetchUsers, createUser, deleteUser } from "../utils/api";
 
 const UserManagement = ({ show, onClose, onUserChange, currentUser }) => {
   const [users, setUsers] = useState([]);
   const [newUser, setNewUser] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     const loadUsers = async () => {
       try {
         const usersData = await fetchUsers();
-        setUsers(usersData.map((user) => user.userName));
+        setUsers(usersData);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -24,19 +26,20 @@ const UserManagement = ({ show, onClose, onUserChange, currentUser }) => {
     setSuccessMessage(message);
     setTimeout(() => setSuccessMessage(""), 2000);
   };
+  
   const handleAddUser = async () => {
-    if (newUser.trim() === "" || users.includes(newUser)) return;
+    if (newUser.trim() === "" || users.some(u => u.userName === newUser)) return;
     try {
-      await createUser(newUser);
+      await createUser(newUser, isAdmin);
 
       const updatedUsersData = await fetchUsers();
-      const updatedUsers = updatedUsersData.map((u) => u.userName);
-      setUsers(updatedUsers);
+      setUsers(updatedUsersData);
 
       onUserChange(newUser);
 
       showSuccessMessage(`User "${newUser}" added successfully!`);
       setNewUser("");
+      setIsAdmin(false);
     } catch (error) {
       console.error("Error adding user:", error);
     }
@@ -44,16 +47,16 @@ const UserManagement = ({ show, onClose, onUserChange, currentUser }) => {
 
   const handleDeleteUser = async (user) => {
     try {
-      await deleteUser(user);
+      await deleteUser(user.userName);
 
       const updatedUsersData = await fetchUsers();
-      const updatedUsers = updatedUsersData.map((u) => u.userName);
-      setUsers(updatedUsers);
+      setUsers(updatedUsersData);
 
-      showSuccessMessage(`User "${user}" deleted successfully!`);
+      showSuccessMessage(`User "${user.userName}" deleted successfully!`);
 
-      if (user === currentUser) {
-        onUserChange(updatedUsers.length > 0 ? updatedUsers[0] : "");
+      if (user.userName === currentUser) {
+        const firstUser = updatedUsersData.length > 0 ? updatedUsersData[0].userName : "";
+        onUserChange(firstUser);
       }
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -75,6 +78,13 @@ const UserManagement = ({ show, onClose, onUserChange, currentUser }) => {
             onChange={(e) => setNewUser(e.target.value)}
             placeholder="Enter username"
           />
+          <Form.Check
+            type="checkbox"
+            label="Administrator"
+            checked={isAdmin}
+            onChange={(e) => setIsAdmin(e.target.checked)}
+            className="mt-2"
+          />
           <Button className="mt-2" onClick={handleAddUser} variant="success">
             Add User
           </Button>
@@ -85,10 +95,13 @@ const UserManagement = ({ show, onClose, onUserChange, currentUser }) => {
           {users.length > 0 ? (
             users.map((user) => (
               <ListGroup.Item
-                key={user}
+                key={user.userName}
                 className="d-flex justify-content-between align-items-center"
               >
-                <span>{user}</span>
+                <div>
+                  <span>{user.userName}</span>
+                  {user.isAdmin && <Badge bg="info" className="ms-2">Admin</Badge>}
+                </div>
                 <Button
                   variant="danger"
                   size="sm"

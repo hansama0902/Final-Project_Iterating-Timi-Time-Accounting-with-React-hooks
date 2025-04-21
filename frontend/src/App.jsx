@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import useUser from "./hooks/useUser";
 import useTransactions from "./hooks/useTransactions";
 import useDashboard from "./hooks/useDashboard";
+import Login from "./components/Login";
 import AccountSwitcher from "./components/AccountSwitcher";
 import Dashboard from "./components/Dashboard";
 import AddForm from "./components/AddForm";
@@ -13,6 +14,8 @@ import "./stylesheets/AppHeader.css";
 
 const App = () => {
   const { userList, currentUser, setCurrentUser } = useUser();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const {
     transactions,
     handleAddTransaction,
@@ -25,6 +28,18 @@ const App = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const addFormRef = useRef(null);
+
+  const handleLogin = (username, adminStatus) => {
+    setCurrentUser(username);
+    setIsAdmin(adminStatus); 
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setCurrentUser("");
+    setIsAdmin(false);
+  };
 
   const onTransactionAdded = async (newTransaction) => {
     await handleAddTransaction(newTransaction);
@@ -57,19 +72,31 @@ const App = () => {
   const { totalIncome, totalExpenses, balance } =
     useDashboard(filteredTransactions);
 
+  if (!isLoggedIn) {
+    return <Login onLogin={handleLogin} />;
+  }
+
   return (
     <div className="app-container">
-      <h1 className="app-title">Timi Time Accounting</h1>
-
-      <AccountSwitcher
-        userList={userList}
-        currentUser={currentUser}
-        onSwitch={setCurrentUser}
-      />
+      <div className="app-header">
+        <h1 className="app-title">Timi Time Accounting</h1>
+        <div className="app-controls">
+          {isAdmin && (
+            <AccountSwitcher
+              userList={userList}
+              currentUser={currentUser}
+              onSwitch={setCurrentUser}
+            />
+          )}
+          <button className="btn btn-danger logout-btn" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
+      </div>
 
       {!currentUser ? (
         <p className="text-muted text-center mt-3">
-          Please switch your account to view data.
+          {isAdmin ? "Please switch your account to view data." : "No user data available."}
         </p>
       ) : (
         <>
@@ -115,6 +142,7 @@ const App = () => {
               transactions={filteredTransactions}
               onDelete={onTransactionDeleted}
               onEdit={onTransactionEdit}
+              loading={loading}
             />
           )}
 

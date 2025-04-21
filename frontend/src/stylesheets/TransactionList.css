@@ -35,3 +35,7 @@
 .transaction-amount {
   font-weight: 600;
 }
+.transaction-table tbody tr:first-child {
+  background-color: #e9f5ff;
+  font-weight: bold;
+}

@@ -1,0 +1,109 @@
+/* stylesheets/Login.css */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 0 20px;
+  }
+  
+  .login-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .login-card h2 {
+    color: #333;
+    margin-bottom: 25px;
+    font-weight: 600;
+  }
+  
+  .custom-dropdown-container {
+    position: relative;
+  }
+  
+  .custom-dropdown-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  
+  .custom-dropdown-input:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+  
+  .custom-dropdown-menu {
+    position: absolute;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ced4da;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  .custom-dropdown-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .custom-dropdown-item:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .admin-checkbox {
+    margin-top: 10px;
+  }
+  
+  .admin-checkbox label {
+    font-weight: 500;
+  }
+  
+  .login-button {
+    padding: 10px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  
+  .login-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .create-account-button {
+    padding: 10px;
+    background-color: #6c757d;
+    border-color: #6c757d;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  
+  .create-account-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #5a6268;
+    border-color: #545b62;
+  }
+  
+  .form-label {
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #495057;
+  }
+  
+  .alert {
+    margin-bottom: 20px;
+    border-radius: 5px;
+  }

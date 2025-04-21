@@ -1,3 +1,4 @@
+// utils/api.js (modified)
 const API_URL = "/api"; // vite
 
 export const fetchTransactions = async (userName) => {
@@ -43,6 +44,7 @@ export const createTransaction = async (transaction) => {
     return null;
   }
 };
+
 export const updateTransaction = async (transactionId, updatedData) => {
   if (!transactionId) {
     console.warn("updateTransaction called with empty transactionId");
@@ -135,7 +137,10 @@ export const createUser = async (userName) => {
     const response = await fetch(`${API_URL}/user`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userName, goalAmount: 5000 }),
+      body: JSON.stringify({ 
+        userName, 
+        goalAmount: 5000
+      }),
     });
 
     if (!response.ok) throw new Error("Failed to create user");
