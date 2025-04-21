@@ -1,4 +1,4 @@
-# Project3 Timi Time Accounting with React hooks
+# Final Project Timi Time Accounting(Iteration) with React hooks
 
 ## Author
 
