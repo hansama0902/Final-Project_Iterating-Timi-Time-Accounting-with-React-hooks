@@ -11,8 +11,11 @@ const DateRangeFilter = ({ startDate, endDate, onChange }) => {
         <Row>
           <Col md={6}>
             <Form.Group className="date-input-group">
-              <Form.Label className="date-label">Start Date</Form.Label>
+              <Form.Label htmlFor="start-date" className="date-label">
+                Start Date
+              </Form.Label>
               <Form.Control
+                id="start-date"
                 type="date"
                 value={startDate}
                 onChange={(e) => onChange("start", e.target.value)}
@@ -22,8 +25,11 @@ const DateRangeFilter = ({ startDate, endDate, onChange }) => {
           </Col>
           <Col md={6}>
             <Form.Group className="date-input-group">
-              <Form.Label className="date-label">End Date</Form.Label>
+              <Form.Label htmlFor="end-date" className="date-label">
+                End Date
+              </Form.Label>
               <Form.Control
+                id="end-date"
                 type="date"
                 value={endDate}
                 onChange={(e) => onChange("end", e.target.value)}

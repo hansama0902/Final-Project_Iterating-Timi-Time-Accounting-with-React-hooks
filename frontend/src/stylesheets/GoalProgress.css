@@ -1,4 +1,4 @@
- /* GoalProgress.css */
+/* GoalProgress.css */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
 .goal-card {
@@ -109,15 +109,44 @@
   color: #0d6efd;
 }
 
-.goal-progress-bar {
+.progress {
   height: 0.8rem;
   border-radius: 10px;
+  background-color: #e9ecef;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   margin-bottom: 0.75rem;
+  display: flex;
+  overflow: hidden;
 }
 
-.goal-progress-bar .progress-bar {
+.progress-bar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
   transition: width 0.5s ease-in-out;
+}
+
+.bg-primary {
+  background-color: #0d6efd;
+}
+
+.bg-success {
+  background-color: #28a745;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 .progress-info {
@@ -193,9 +222,20 @@
 
 .goal-edit-button:hover,
 .goal-save-button:hover,
-.goal-cancel-button:hover {
+.goal-cancel-button:hover,
+.goal-edit-button:focus,
+.goal-save-button:focus,
+.goal-cancel-button:focus {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.goal-input:focus,
+.goal-edit-button:focus,
+.goal-cancel-button:focus,
+.goal-save-button:focus {
+  outline: 2px solid #0d6efd;
+  outline-offset: 2px;
 }
 
 .goal-loading,
