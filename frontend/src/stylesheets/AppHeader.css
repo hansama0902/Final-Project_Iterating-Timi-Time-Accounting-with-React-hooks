@@ -1,0 +1,21 @@
+.app-title {
+  text-align: center;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-top: 1.5rem;
+  margin-bottom: 1.2rem;
+  text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.5px;
+  position: relative;
+}
+
+.app-title::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background-color: #0d6efd; /* Bootstrap Primary */
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}
