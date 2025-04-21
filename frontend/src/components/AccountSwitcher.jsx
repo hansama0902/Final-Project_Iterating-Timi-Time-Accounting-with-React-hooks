@@ -1,6 +1,7 @@
+// AccountSwitcher.jsx
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Dropdown, Button } from "react-bootstrap";
+import { Dropdown, Button, Badge } from "react-bootstrap";
 import UserManagement from "./UserManagement";
 import { fetchUsers } from "../utils/api";
 import "../stylesheets/AccountSwitcher.css";
@@ -9,7 +10,7 @@ const AccountSwitcher = ({ currentUser, onSwitch }) => {
   const [userList, setUserList] = useState([]);
   const [showUserModal, setShowUserModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(
-    currentUser || "Please switch your account",
+    currentUser || "Select Account"
   );
 
   const loadUsers = async () => {
@@ -34,30 +35,49 @@ const AccountSwitcher = ({ currentUser, onSwitch }) => {
 
   return (
     <div className="account-switcher">
-      <Dropdown className="account-dropdown">
-        <Dropdown.Toggle variant="primary" className="w-100">
-          {selectedUser}
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
-          {userList.length > 0 ? (
-            userList.map((user) => (
-              <Dropdown.Item key={user} onClick={() => handleSwitch(user)}>
-                {user}
-              </Dropdown.Item>
-            ))
-          ) : (
-            <Dropdown.Item disabled>No Users Available</Dropdown.Item>
-          )}
-        </Dropdown.Menu>
-      </Dropdown>
+      <div className="account-header">
+        <h2 className="account-title">Account Management</h2>
+        {selectedUser !== "Select Account" && (
+          <Badge bg="info" className="current-user-badge">
+            Current: {selectedUser}
+          </Badge>
+        )}
+      </div>
 
-      <Button
-        variant="secondary"
-        onClick={() => setShowUserModal(true)}
-        className="account-button"
-      >
-        Manage Users
-      </Button>
+      <div className="account-actions">
+        <Dropdown className="account-dropdown">
+          <Dropdown.Toggle variant="primary" className="account-toggle">
+            <i className="fa fa-user-circle"></i>
+            <span className="toggle-text">{selectedUser}</span>
+          </Dropdown.Toggle>
+          <Dropdown.Menu className="account-menu">
+            {userList.length > 0 ? (
+              userList.map((user) => (
+                <Dropdown.Item
+                  key={user}
+                  onClick={() => handleSwitch(user)}
+                  active={user === selectedUser}
+                  className="account-item"
+                >
+                  {user}
+                </Dropdown.Item>
+              ))
+            ) : (
+              <Dropdown.Item disabled className="account-item-empty">
+                No Users Available
+              </Dropdown.Item>
+            )}
+          </Dropdown.Menu>
+        </Dropdown>
+
+        <Button
+          variant="outline-primary"
+          onClick={() => setShowUserModal(true)}
+          className="account-button"
+        >
+          Manage Users
+        </Button>
+      </div>
 
       <UserManagement
         show={showUserModal}

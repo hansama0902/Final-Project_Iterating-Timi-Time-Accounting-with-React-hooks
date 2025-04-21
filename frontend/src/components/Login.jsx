@@ -1,7 +1,7 @@
 // Login.jsx
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Modal, Form, Button, Alert, FormControl } from "react-bootstrap";
+import { Modal, Form, Button, Alert } from "react-bootstrap";
 import { fetchUsers, createUser } from "../utils/api";
 import "../stylesheets/Login.css";
 
@@ -14,13 +14,14 @@ const Login = ({ onLogin }) => {
   const [newIsAdmin, setNewIsAdmin] = useState(false);
   const [userList, setUserList] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [filteredUsers, setFilteredUsers] = useState([]);
 
-  // Load user list on component mount
   useEffect(() => {
     const loadUsers = async () => {
       try {
         const users = await fetchUsers();
         setUserList(users);
+        setFilteredUsers(users);
       } catch (error) {
         console.error("Error loading users:", error);
       }
@@ -28,6 +29,17 @@ const Login = ({ onLogin }) => {
     
     loadUsers();
   }, []);
+
+  useEffect(() => {
+    if (username) {
+      const filtered = userList.filter(user => 
+        user.userName.toLowerCase().includes(username.toLowerCase())
+      );
+      setFilteredUsers(filtered);
+    } else {
+      setFilteredUsers(userList);
+    }
+  }, [username, userList]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -38,12 +50,10 @@ const Login = ({ onLogin }) => {
     }
 
     try {
-      // Only check if user exists
       const users = await fetchUsers();
       const userExists = users.some(user => user.userName === username);
       
       if (userExists) {
-        // User exists, login with selected role
         onLogin(username, isAdmin);
       } else {
         setErrorMessage("User not found");
@@ -65,26 +75,19 @@ const Login = ({ onLogin }) => {
       setNewUsername("");
       setNewIsAdmin(false);
       
-      // Update user list
       const users = await fetchUsers();
       setUserList(users);
       
-      // Login with new user
       onLogin(newUsername, newIsAdmin);
     } catch (error) {
       console.error("Error creating user:", error);
     }
   };
 
-  // Filter users based on input
-  const filteredUsers = userList.filter(user => 
-    user.userName.toLowerCase().includes(username.toLowerCase())
-  );
-
   return (
     <div className="login-container">
       <div className="login-card">
-        <h2 className="text-center mb-4">Timi Time Accounting</h2>
+        <h1 className="login-title">Timi Time Accounting</h1>
         
         {errorMessage && (
           <Alert variant="danger" onClose={() => setErrorMessage("")} dismissible>
@@ -94,26 +97,26 @@ const Login = ({ onLogin }) => {
         
         <Form onSubmit={handleLogin}>
           <Form.Group className="mb-3">
-            <Form.Label>Username</Form.Label>
-            <div className="custom-dropdown-container">
-              <FormControl
-                autoFocus
+            <Form.Label className="input-label">Username</Form.Label>
+            <div className="autocomplete-container">
+              <input
+                type="text"
+                className="form-control autocomplete-input"
                 placeholder="Type to search users..."
+                value={username}
                 onChange={(e) => {
                   setUsername(e.target.value);
                   setShowDropdown(true);
                 }}
-                value={username}
                 onFocus={() => setShowDropdown(true)}
                 onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
-                className="custom-dropdown-input"
               />
               {showDropdown && filteredUsers.length > 0 && (
-                <div className="custom-dropdown-menu">
+                <div className="autocomplete-dropdown">
                   {filteredUsers.map((user) => (
                     <div 
                       key={user.userName} 
-                      className="custom-dropdown-item"
+                      className="autocomplete-item"
                       onClick={() => {
                         setUsername(user.userName);
                         setShowDropdown(false);
@@ -127,9 +130,10 @@ const Login = ({ onLogin }) => {
             </div>
           </Form.Group>
           
-          <Form.Group className="mb-3">
+          <Form.Group className="mb-4">
             <Form.Check
               type="checkbox"
+              id="admin-checkbox"
               label="Login as Administrator"
               checked={isAdmin}
               onChange={(e) => setIsAdmin(e.target.checked)}
@@ -137,8 +141,12 @@ const Login = ({ onLogin }) => {
             />
           </Form.Group>
           
-          <div className="d-grid gap-2">
-            <Button variant="primary" type="submit" className="login-button">
+          <div className="btn-group-vertical w-100">
+            <Button 
+              variant="primary" 
+              type="submit" 
+              className="login-button"
+            >
               Login
             </Button>
             <Button 
@@ -152,8 +160,7 @@ const Login = ({ onLogin }) => {
         </Form>
       </div>
 
-      {/* Create User Modal */}
-      <Modal show={showCreateModal} onHide={() => setShowCreateModal(false)}>
+      <Modal show={showCreateModal} onHide={() => setShowCreateModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Create New User</Modal.Title>
         </Modal.Header>
@@ -180,11 +187,11 @@ const Login = ({ onLogin }) => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowCreateModal(false)}>
+          <Button variant="outline-secondary" onClick={() => setShowCreateModal(false)}>
             Cancel
           </Button>
           <Button variant="primary" onClick={handleCreateUser}>
-            Create User
+            Create
           </Button>
         </Modal.Footer>
       </Modal>

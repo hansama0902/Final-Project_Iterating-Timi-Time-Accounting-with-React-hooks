@@ -1,26 +1,39 @@
+// DateRangeFilter.jsx
 import PropTypes from "prop-types";
-import { Form, Row, Col } from "react-bootstrap";
+import { Form, Row, Col, Card } from "react-bootstrap";
+import "../stylesheets/DateRangeFilter.css";
 
 const DateRangeFilter = ({ startDate, endDate, onChange }) => {
   return (
-    <Row className="mb-3">
-      <Col>
-        <Form.Label>Start Date</Form.Label>
-        <Form.Control
-          type="date"
-          value={startDate}
-          onChange={(e) => onChange("start", e.target.value)}
-        />
-      </Col>
-      <Col>
-        <Form.Label>End Date</Form.Label>
-        <Form.Control
-          type="date"
-          value={endDate}
-          onChange={(e) => onChange("end", e.target.value)}
-        />
-      </Col>
-    </Row>
+    <Card className="date-filter-card">
+      <Card.Body>
+        <h3 className="date-filter-title">Date Range</h3>
+        <Row>
+          <Col md={6}>
+            <Form.Group className="date-input-group">
+              <Form.Label className="date-label">Start Date</Form.Label>
+              <Form.Control
+                type="date"
+                value={startDate}
+                onChange={(e) => onChange("start", e.target.value)}
+                className="date-input"
+              />
+            </Form.Group>
+          </Col>
+          <Col md={6}>
+            <Form.Group className="date-input-group">
+              <Form.Label className="date-label">End Date</Form.Label>
+              <Form.Control
+                type="date"
+                value={endDate}
+                onChange={(e) => onChange("end", e.target.value)}
+                className="date-input"
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+      </Card.Body>
+    </Card>
   );
 };
 

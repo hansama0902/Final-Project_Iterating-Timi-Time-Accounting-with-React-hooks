@@ -1,20 +1,119 @@
-.app-title {
-  text-align: left;
-  font-size: 2.6rem;
-  font-weight: 800;
+/* App.css */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+
+/* Main container */
+.app-container {
+  font-family: 'Montserrat', sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
   color: #2c3e50;
-  margin: 1.5rem 1rem 1rem 1.5rem;
-  text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
-  letter-spacing: 0.6px;
-  position: relative;
 }
 
-.app-title::after {
+/* Header styles */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.app-title {
+  text-align: left;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #2c3e50;
+  margin: 0;
+  position: relative;
+  padding-left: 1rem;
+  letter-spacing: 0.4px;
+}
+
+.app-title::before {
   content: "";
-  display: block;
-  width: 60px;
-  height: 4px;
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  height: 2rem;
+  width: 5px;
   background-color: #0d6efd;
-  margin-top: 0.5rem;
-  border-radius: 2px;
+  border-radius: 3px;
+}
+
+.app-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.app-logout-button {
+  padding: 0.5rem 1.25rem;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.app-logout-button:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Main content sections */
+.app-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.app-message {
+  text-align: center;
+  padding: 3rem;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+.app-overview {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 1.5rem;
+}
+
+.app-loading,
+.app-empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: #6c757d;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .app-overview {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .app-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .app-title {
+    font-size: 1.8rem;
+  }
 }

@@ -1,29 +1,144 @@
+/* AccountSwitcher.css */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
 .account-switcher {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.2px;
+}
+
+.account-header {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 0;
+  margin-bottom: 1.25rem;
+}
+
+.account-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2c3e50;
+  position: relative;
+  padding-left: 0.75rem;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.account-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.25rem;
+  height: 1rem;
+  width: 4px;
+  background-color: #0d6efd;
+  border-radius: 2px;
+}
+
+.current-user-badge {
+  padding: 0.5rem 0.75rem;
+  font-weight: 500;
+  font-size: 0.85rem;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+}
+
+.account-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .account-dropdown {
-  min-width: 220px;
-  text-align: center;
+  flex: 1;
+}
+
+.account-toggle {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.account-toggle:hover,
+.account-toggle:focus {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.toggle-text {
+  margin-left: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.account-menu {
+  width: 100%;
+  border-radius: 8px;
+  padding: 0.5rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: none;
+}
+
+.account-item {
+  padding: 0.75rem 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.account-item:hover {
+  background-color: #f8f9fa;
+}
+
+.account-item.active {
+  background-color: #e9f0ff;
+  color: #0d6efd;
+}
+
+.account-item-empty {
+  padding: 0.75rem 1rem;
+  color: #6c757d;
+  font-style: italic;
 }
 
 .account-button {
-  width: 220px;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
   border-radius: 8px;
-  font-weight: 500;
+  min-width: 140px;
+  transition: all 0.3s ease;
 }
 
-@media (min-width: 576px) {
-  .account-switcher {
-    flex-direction: row;
-    justify-content: center;
+.account-button:hover {
+  background-color: #0d6efd;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(13, 110, 253, 0.25);
+}
+
+/* Responsive styles */
+@media (max-width: 576px) {
+  .account-actions {
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
   .account-button {
-    margin-left: 1rem;
+    width: 100%;
   }
 }

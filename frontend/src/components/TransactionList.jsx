@@ -1,81 +1,170 @@
+// TransactionList.jsx
+import { useState } from "react";
 import PropTypes from "prop-types";
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, Badge, Form, InputGroup } from "react-bootstrap";
 import "../stylesheets/TransactionList.css";
 
 const TransactionList = ({ transactions, onDelete, onEdit, loading }) => {
-  if (loading) return <p className="text-center">Loading transactions...</p>;
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterType, setFilterType] = useState("all");
+  
+  if (loading) return (
+    <div className="transactions-loading">
+      <div className="spinner"></div>
+      <p>Loading transactions...</p>
+    </div>
+  );
+
+  // Filter transactions based on search and filter
+  const filteredTransactions = transactions.filter(transaction => {
+    // Type filter
+    if (filterType !== "all" && transaction.type !== filterType) return false;
+    
+    // Search filter
+    if (searchTerm) {
+      const searchLower = searchTerm.toLowerCase();
+      return (
+        transaction.description.toLowerCase().includes(searchLower) ||
+        transaction.category.toLowerCase().includes(searchLower)
+      );
+    }
+    
+    return true;
+  });
 
   return (
-    <div className="transaction-container mt-4">
-      <h3 className="transaction-title">Transaction History</h3>
+    <div className="transaction-container">
+      <div className="transaction-header">
+        <h2 className="transaction-title">Transaction History</h2>
+        <div className="transaction-filters">
+          <InputGroup className="search-group">
+            <InputGroup.Text className="search-icon">
+              <i className="fa fa-search"></i>
+            </InputGroup.Text>
+            <Form.Control
+              type="text"
+              placeholder="Search by description or category"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+            />
+          </InputGroup>
+          
+          <div className="filter-buttons">
+            <Button
+              variant={filterType === "all" ? "primary" : "outline-primary"}
+              className="filter-btn"
+              onClick={() => setFilterType("all")}
+            >
+              All
+            </Button>
+            <Button
+              variant={filterType === "income" ? "success" : "outline-success"}
+              className="filter-btn"
+              onClick={() => setFilterType("income")}
+            >
+              Income
+            </Button>
+            <Button
+              variant={filterType === "expense" ? "danger" : "outline-danger"}
+              className="filter-btn"
+              onClick={() => setFilterType("expense")}
+            >
+              Expenses
+            </Button>
+          </div>
+        </div>
+      </div>
 
-      {transactions.length === 0 ? (
-        <p className="text-danger text-center">No Transactions Found</p>
+      {filteredTransactions.length === 0 ? (
+        <div className="no-transactions">
+          <p>No transactions found</p>
+          <small>
+            {searchTerm || filterType !== "all" 
+              ? "Try adjusting your search or filters" 
+              : "Add a transaction to get started"}
+          </small>
+        </div>
       ) : (
-        <Table striped bordered hover responsive className="transaction-table">
-          <thead>
-            <tr>
-              <th>Type</th>
-              <th>Category</th>
-              <th>Description</th>
-              <th>Amount</th>
-              <th>Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {transactions.map((transaction) => (
-              <tr key={transaction._id}>
-                <td
-                  className={
-                    transaction.type === "income"
-                      ? "text-success"
-                      : "text-danger"
-                  }
-                >
-                  {transaction.type === "income" ? "[Income]" : "[Expense]"}
-                </td>
-                <td>{transaction.category}</td>
-                <td>{transaction.description}</td>
-                <td
-                  className={`transaction-amount ${
-                    transaction.type === "income"
-                      ? "text-success"
-                      : "text-danger"
-                  }`}
-                >
-                  {transaction.type === "income"
-                    ? `+ $${transaction.amount}`
-                    : `- $${transaction.amount}`}
-                </td>
-                <td>
-                  {transaction.date
-                    ? transaction.date.slice(0, 10).replace(/-/g, "/")
-                    : "N/A"}
-                </td>
-
-                <td>
-                  <div className="transaction-actions">
-                    <Button
-                      variant="warning"
-                      size="sm"
-                      onClick={() => onEdit(transaction)}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      variant="danger"
-                      size="sm"
-                      onClick={() => onDelete(transaction._id)}
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <>
+          <div className="transaction-summary">
+            <Badge bg="primary" className="transaction-badge">
+              {filteredTransactions.length} Transaction{filteredTransactions.length !== 1 ? 's' : ''}
+            </Badge>
+          </div>
+          
+          <div className="table-responsive">
+            <Table className="transaction-table">
+              <thead>
+                <tr>
+                  <th className="type-column">Type</th>
+                  <th>Category</th>
+                  <th>Description</th>
+                  <th className="amount-column">Amount</th>
+                  <th>Date</th>
+                  <th className="actions-column">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredTransactions.map((transaction) => (
+                  <tr key={transaction._id} className={transaction.type === "income" ? "income-row" : "expense-row"}>
+                    <td>
+                      <Badge 
+                        bg={transaction.type === "income" ? "success" : "danger"}
+                        className="transaction-type-badge"
+                      >
+                        {transaction.type === "income" ? "INCOME" : "EXPENSE"}
+                      </Badge>
+                    </td>
+                    <td className="category-cell">
+                      <span className="category-text">{transaction.category}</span>
+                    </td>
+                    <td className="description-cell">{transaction.description}</td>
+                    <td className={`amount-cell ${
+                      transaction.type === "income" ? "income-amount" : "expense-amount"
+                    }`}>
+                      <span className="amount-prefix">
+                        {transaction.type === "income" ? "+" : "-"}
+                      </span>
+                      <span className="amount-value">
+                        ${Number(transaction.amount).toFixed(2)}
+                      </span>
+                    </td>
+                    <td className="date-cell">
+                      {transaction.date
+                        ? new Date(transaction.date).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric"
+                          })
+                        : "N/A"}
+                    </td>
+                    <td>
+                      <div className="transaction-actions">
+                        <Button
+                          variant="outline-primary"
+                          size="sm"
+                          className="edit-btn"
+                          onClick={() => onEdit(transaction)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant="outline-danger"
+                          size="sm"
+                          className="delete-btn"
+                          onClick={() => onDelete(transaction._id)}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
+        </>
       )}
     </div>
   );

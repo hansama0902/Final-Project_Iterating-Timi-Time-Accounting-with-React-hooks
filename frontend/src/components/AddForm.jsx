@@ -1,6 +1,7 @@
+// AddForm.jsx
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Button, Form, ToggleButtonGroup, ToggleButton } from "react-bootstrap";
+import { Button, Form, ToggleButtonGroup, ToggleButton, Row, Col } from "react-bootstrap";
 import "../stylesheets/AddForm.css";
 
 const AddForm = ({
@@ -66,84 +67,129 @@ const AddForm = ({
   };
 
   return (
-    <Form onSubmit={handleSubmit} className="add-form-container">
-      <div className="toggle-group">
-        <ToggleButtonGroup
-          type="radio"
-          name="transactionType"
-          value={isIncome}
-          onChange={(val) => setIsIncome(val)}
-        >
-          <ToggleButton id="tbg-radio-income" variant="success" value={true}>
-            Income
-          </ToggleButton>
-          <ToggleButton id="tbg-radio-expense" variant="danger" value={false}>
-            Expense
-          </ToggleButton>
-        </ToggleButtonGroup>
-      </div>
+    <div className="add-form-wrapper">
+      <h2 className="add-form-title">
+        {editingTransaction ? "Edit Transaction" : "Add New Transaction"}
+      </h2>
+      
+      <Form onSubmit={handleSubmit} className="add-form-container">
+        <div className="toggle-group-wrapper">
+          <ToggleButtonGroup
+            type="radio"
+            name="transactionType"
+            value={isIncome}
+            onChange={(val) => setIsIncome(val)}
+            className="toggle-group"
+          >
+            <ToggleButton 
+              id="tbg-radio-income" 
+              variant="outline-success" 
+              value={true}
+              className={isIncome ? "active" : ""}
+            >
+              Income
+            </ToggleButton>
+            <ToggleButton 
+              id="tbg-radio-expense" 
+              variant="outline-danger" 
+              value={false}
+              className={!isIncome ? "active" : ""}
+            >
+              Expense
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </div>
 
-      <Form.Group className="add-form-group">
-        <Form.Label>Amount</Form.Label>
-        <Form.Control
-          type="number"
-          className="add-form-control"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          placeholder="Enter amount"
-          min="0"
-          step="0.01"
-          required
-        />
-      </Form.Group>
+        <Row>
+          <Col md={6}>
+            <Form.Group className="add-form-group">
+              <Form.Label>Amount</Form.Label>
+              <Form.Control
+                type="number"
+                className="add-form-control"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder="Enter amount"
+                min="0"
+                step="0.01"
+                required
+              />
+            </Form.Group>
+          </Col>
+          
+          <Col md={6}>
+            <Form.Group className="add-form-group">
+              <Form.Label>Date</Form.Label>
+              <Form.Control
+                type="date"
+                className="add-form-control"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                required
+              />
+            </Form.Group>
+          </Col>
+        </Row>
 
-      <Form.Group className="add-form-group">
-        <Form.Label>Category</Form.Label>
-        <Form.Control
-          type="text"
-          className="add-form-control"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          placeholder="e.g., Rent, Salary, Groceries"
-          required
-        />
-      </Form.Group>
+        <Form.Group className="add-form-group">
+          <Form.Label>Category</Form.Label>
+          <Form.Control
+            type="text"
+            className="add-form-control"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            placeholder="e.g., Rent, Salary, Groceries"
+            required
+          />
+        </Form.Group>
 
-      <Form.Group className="add-form-group">
-        <Form.Label>Description</Form.Label>
-        <Form.Control
-          type="text"
-          className="add-form-control"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Add details"
-          required
-        />
-      </Form.Group>
+        <Form.Group className="add-form-group">
+          <Form.Label>Description</Form.Label>
+          <Form.Control
+            as="textarea"
+            rows={2}
+            className="add-form-control"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Add details"
+            required
+          />
+        </Form.Group>
 
-      <Form.Group className="add-form-group">
-        <Form.Label>Date</Form.Label>
-        <Form.Control
-          type="date"
-          className="add-form-control"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          required
-        />
-      </Form.Group>
-
-      <Button
-        type="submit"
-        variant={isIncome ? "success" : "danger"}
-        className="add-form-button"
-      >
-        {editingTransaction
-          ? "Update Transaction"
-          : isIncome
-            ? "Add Income"
-            : "Add Expense"}
-      </Button>
-    </Form>
+        <div className="add-form-actions">
+          {editingTransaction && (
+            <Button
+              type="button"
+              variant="outline-secondary"
+              className="add-form-cancel-button"
+              onClick={() => {
+                setAmount("");
+                setCategory("");
+                setDescription("");
+                setDate("");
+                setIsIncome(true);
+                // Assuming you have a function to cancel editing
+                // onCancelEdit();
+              }}
+            >
+              Cancel
+            </Button>
+          )}
+          
+          <Button
+            type="submit"
+            variant={isIncome ? "success" : "danger"}
+            className="add-form-submit-button"
+          >
+            {editingTransaction
+              ? "Update Transaction"
+              : isIncome
+                ? "Add Income"
+                : "Add Expense"}
+          </Button>
+        </div>
+      </Form>
+    </div>
   );
 };
 

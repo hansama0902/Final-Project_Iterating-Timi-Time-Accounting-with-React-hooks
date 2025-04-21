@@ -1,0 +1,229 @@
+/* UserManagement.css */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+.user-management-modal .modal-content {
+  font-family: 'Montserrat', sans-serif;
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.2px;
+}
+
+.user-management-modal .modal-header {
+  border-bottom: 2px solid #f0f0f0;
+  padding: 1.25rem 1.5rem;
+}
+
+.user-management-modal .modal-title {
+  font-weight: 700;
+  color: #2c3e50;
+  font-size: 1.5rem;
+  position: relative;
+  padding-left: 0.75rem;
+  letter-spacing: -0.5px;
+}
+
+.user-management-modal .modal-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.35rem;
+  height: 1.1rem;
+  width: 4px;
+  background-color: #0d6efd;
+  border-radius: 2px;
+}
+
+.user-management-modal .modal-body {
+  padding: 1.5rem;
+}
+
+.message-alert {
+  margin-bottom: 1.25rem;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.section-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.add-user-section {
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+.username-input {
+  border: 2px solid #e4e6e8;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  transition: all 0.2s ease;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.username-input:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+.admin-checkbox label {
+  font-weight: 500;
+  color: #495057;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.add-button {
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.add-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(13, 110, 253, 0.25);
+}
+
+.add-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.user-count-badge {
+  font-size: 0.75rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.users-list-container {
+  position: relative;
+  min-height: 200px;
+}
+
+.loading-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+}
+
+.spinner {
+  width: 30px;
+  height: 30px;
+  border: 3px solid rgba(13, 110, 253, 0.2);
+  border-radius: 50%;
+  border-top-color: #0d6efd;
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 0.75rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.users-list {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.user-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.user-item.current-user {
+  border-left-color: #28a745;
+  background-color: #f7fef9;
+}
+
+.user-item:hover {
+  background-color: #f8f9fa;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.admin-badge,
+.current-badge {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.delete-button {
+  font-weight: 500;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.delete-button:hover:not(:disabled) {
+  background-color: #dc3545;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(220, 53, 69, 0.25);
+}
+
+.no-users-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+}
+
+.user-management-modal .modal-footer {
+  border-top: 2px solid #f0f0f0;
+  padding: 1.25rem 1.5rem;
+}
+
+/* Responsive styles */
+@media (max-width: 576px) {
+  .user-management-modal .modal-body {
+    padding: 1.25rem;
+  }
+  
+  .button-container {
+    justify-content: center;
+  }
+  
+  .add-button {
+    width: 100%;
+  }
+}

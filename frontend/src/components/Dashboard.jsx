@@ -6,36 +6,43 @@ const Dashboard = ({ totalIncome, totalExpenses }) => {
   const balance = totalIncome - totalExpenses;
 
   return (
-    <Container className="mt-4">
+    <Container className="dashboard-container mt-4">
+      <h2 className="dashboard-heading">Financial Summary</h2>
       <Row>
         <Col md={4} className="mb-3">
-          <Card className="dashboard-card">
-            <Card.Title className="dashboard-title">Total Income</Card.Title>
-            <Card.Text className="dashboard-amount text-success">
-              ${totalIncome.toFixed(2)}
-            </Card.Text>
+          <Card className="dashboard-card income-card">
+            <Card.Body>
+              <Card.Title className="dashboard-title">Total Income</Card.Title>
+              <Card.Text className="dashboard-amount income-amount">
+                ${totalIncome.toFixed(2)}
+              </Card.Text>
+            </Card.Body>
           </Card>
         </Col>
 
         <Col md={4} className="mb-3">
-          <Card className="dashboard-card">
-            <Card.Title className="dashboard-title">Total Expenses</Card.Title>
-            <Card.Text className="dashboard-amount text-danger">
-              ${totalExpenses.toFixed(2)}
-            </Card.Text>
+          <Card className="dashboard-card expense-card">
+            <Card.Body>
+              <Card.Title className="dashboard-title">Total Expenses</Card.Title>
+              <Card.Text className="dashboard-amount expense-amount">
+                ${totalExpenses.toFixed(2)}
+              </Card.Text>
+            </Card.Body>
           </Card>
         </Col>
 
         <Col md={4} className="mb-3">
-          <Card className="dashboard-card">
-            <Card.Title className="dashboard-title">Balance</Card.Title>
-            <Card.Text
-              className={`dashboard-amount ${
-                balance >= 0 ? "text-primary" : "text-danger"
-              }`}
-            >
-              ${balance.toFixed(2)}
-            </Card.Text>
+          <Card className="dashboard-card balance-card">
+            <Card.Body>
+              <Card.Title className="dashboard-title">Balance</Card.Title>
+              <Card.Text
+                className={`dashboard-amount ${
+                  balance >= 0 ? "balance-positive" : "balance-negative"
+                }`}
+              >
+                ${balance.toFixed(2)}
+              </Card.Text>
+            </Card.Body>
           </Card>
         </Col>
       </Row>
