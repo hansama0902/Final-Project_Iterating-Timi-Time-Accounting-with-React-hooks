@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
 
 .account-switcher {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
@@ -110,7 +110,9 @@
 .dropdown-option {
   padding: 0.75rem 1rem;
   font-weight: 500;
-  transition: background-color 0.2s, color 0.2s;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
   cursor: pointer;
   outline: none;
 }
@@ -121,8 +123,8 @@
 }
 
 .dropdown-option.active {
-  background-color: #0d6efd; 
-  color: #ffffff;            
+  background-color: #0d6efd;
+  color: #ffffff;
   font-weight: 600;
 }
 
@@ -169,5 +171,3 @@
     width: 100%;
   }
 }
-
-

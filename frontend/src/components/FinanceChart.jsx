@@ -7,7 +7,7 @@ import {
   Legend,
   Tooltip,
   ResponsiveContainer,
-  Customized
+  Customized,
 } from "recharts";
 import { Button, Row, Col, Card } from "react-bootstrap";
 import "../stylesheets/FinanceChart.css";
@@ -186,9 +186,7 @@ const FinanceChart = ({ data }) => {
                               backgroundColor: getColorByIndex(index),
                             }}
                           ></span>
-                          <span className="category-name">
-                            {item.category}
-                          </span>
+                          <span className="category-name">{item.category}</span>
                         </div>
                         <span className="category-amount">
                           ${item.amount.toFixed(2)}
@@ -217,12 +215,8 @@ FinanceChart.propTypes = {
       category: PropTypes.string.isRequired,
       amount: PropTypes.number.isRequired,
       type: PropTypes.oneOf(["income", "expense"]).isRequired,
-    })
+    }),
   ).isRequired,
 };
 
 export default FinanceChart;
-
-
-
-

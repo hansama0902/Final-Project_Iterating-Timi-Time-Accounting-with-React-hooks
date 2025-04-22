@@ -8,7 +8,7 @@ import {
   Alert,
   Badge,
   Row,
-  Col
+  Col,
 } from "react-bootstrap";
 import { fetchUsers, createUser, deleteUser } from "../utils/api";
 import "../stylesheets/UserManagement.css";
@@ -76,7 +76,9 @@ const UserManagement = ({ show, onClose, onUserChange, currentUser }) => {
       const updatedUsers = await fetchUsers();
       updatedUsers.sort((a, b) => a.userName.localeCompare(b.userName));
       setUsers(updatedUsers);
-      showSuccessMessage(`User "${confirmDeleteUser.userName}" deleted successfully!`);
+      showSuccessMessage(
+        `User "${confirmDeleteUser.userName}" deleted successfully!`,
+      );
       if (confirmDeleteUser.userName === currentUser) {
         onUserChange(updatedUsers.length > 0 ? updatedUsers[0].userName : "");
       }
@@ -90,7 +92,12 @@ const UserManagement = ({ show, onClose, onUserChange, currentUser }) => {
   };
 
   return (
-    <Modal show={show} onHide={onClose} centered className="user-management-modal">
+    <Modal
+      show={show}
+      onHide={onClose}
+      centered
+      className="user-management-modal"
+    >
       <Modal.Header closeButton>
         <Modal.Title className="modal-title">User Management</Modal.Title>
       </Modal.Header>
@@ -174,9 +181,15 @@ const UserManagement = ({ show, onClose, onUserChange, currentUser }) => {
                 >
                   <div className="user-info">
                     <span className="user-name">{user.userName}</span>
-                    {user.isAdmin && <Badge bg="info" className="admin-badge">Admin</Badge>}
+                    {user.isAdmin && (
+                      <Badge bg="info" className="admin-badge">
+                        Admin
+                      </Badge>
+                    )}
                     {user.userName === currentUser && (
-                      <Badge bg="success" className="current-badge">Current</Badge>
+                      <Badge bg="success" className="current-badge">
+                        Current
+                      </Badge>
                     )}
                   </div>
                   <Button
@@ -198,7 +211,11 @@ const UserManagement = ({ show, onClose, onUserChange, currentUser }) => {
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="secondary" onClick={onClose} aria-label="Close user management modal">
+        <Button
+          variant="secondary"
+          onClick={onClose}
+          aria-label="Close user management modal"
+        >
           Close
         </Button>
       </Modal.Footer>
@@ -214,10 +231,14 @@ const UserManagement = ({ show, onClose, onUserChange, currentUser }) => {
           <Modal.Title id="confirm-delete-title">Confirm Deletion</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Are you sure you want to delete user <strong>{confirmDeleteUser?.userName}</strong>?
+          Are you sure you want to delete user{" "}
+          <strong>{confirmDeleteUser?.userName}</strong>?
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setConfirmDeleteUser(null)}>
+          <Button
+            variant="secondary"
+            onClick={() => setConfirmDeleteUser(null)}
+          >
             Cancel
           </Button>
           <Button variant="danger" onClick={handleDeleteConfirm}>
@@ -237,5 +258,3 @@ UserManagement.propTypes = {
 };
 
 export default UserManagement;
-
-

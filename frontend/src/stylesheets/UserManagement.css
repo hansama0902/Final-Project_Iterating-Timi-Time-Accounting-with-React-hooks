@@ -1,8 +1,8 @@
 /* UserManagement.css */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
 
 .user-management-modal .modal-content {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   border-radius: 12px;
   border: none;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -71,7 +71,7 @@
   border-radius: 8px;
   padding: 0.6rem 1rem;
   transition: all 0.2s ease;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .username-input:focus {
@@ -138,7 +138,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .users-list {
@@ -185,21 +187,21 @@
 }
 
 .delete-button {
-    font-weight: 500;
-    padding: 0.35rem 0.6rem;
-    border-radius: 6px;
-    color: #a71d2a; /* 更深的红色 */
-    border: 1px solid #a71d2a;
-    background-color: transparent;
-    transition: all 0.3s ease;
-  }
-  
-  .delete-button:hover:not(:disabled) {
-    background-color: #a71d2a;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 2px 5px rgba(167, 29, 42, 0.25);
-  }
+  font-weight: 500;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  color: #a71d2a; /* 更深的红色 */
+  border: 1px solid #a71d2a;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.delete-button:hover:not(:disabled) {
+  background-color: #a71d2a;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(167, 29, 42, 0.25);
+}
 
 .no-users-message {
   display: flex;
@@ -221,11 +223,11 @@
   .user-management-modal .modal-body {
     padding: 1.25rem;
   }
-  
+
   .button-container {
     justify-content: center;
   }
-  
+
   .add-button {
     width: 100%;
   }

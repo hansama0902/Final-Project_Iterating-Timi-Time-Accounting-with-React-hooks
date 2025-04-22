@@ -31,7 +31,7 @@ const App = () => {
 
   const handleLogin = (username, adminStatus) => {
     setCurrentUser(username);
-    setIsAdmin(adminStatus); 
+    setIsAdmin(adminStatus);
     setIsLoggedIn(true);
   };
 
@@ -82,7 +82,7 @@ const App = () => {
         <div className="app-branding">
           <h1 className="app-title">Timi Time Accounting</h1>
         </div>
-        
+
         <div className="app-user-section">
           {isAdmin && (
             <div className="account-control-area">
@@ -92,7 +92,11 @@ const App = () => {
               />
             </div>
           )}
-          <button type="button" className="logout-button" onClick={handleLogout}>
+          <button
+            type="button"
+            className="logout-button"
+            onClick={handleLogout}
+          >
             Logout
           </button>
         </div>
@@ -101,7 +105,9 @@ const App = () => {
       <main className="app-content">
         {!currentUser ? (
           <p className="no-user-message">
-            {isAdmin ? "Please switch your account to view data." : "No user data available."}
+            {isAdmin
+              ? "Please switch your account to view data."
+              : "No user data available."}
           </p>
         ) : (
           <>
@@ -124,7 +130,7 @@ const App = () => {
                   totalExpenses={totalExpenses}
                   balance={balance}
                 />
-                
+
                 <GoalProgress
                   key={currentUser}
                   userId={currentUser}
@@ -144,9 +150,7 @@ const App = () => {
               {loading ? (
                 <div className="loading-indicator">Loading transactions...</div>
               ) : filteredTransactions.length === 0 ? (
-                <div className="empty-state">
-                  No transactions found.
-                </div>
+                <div className="empty-state">No transactions found.</div>
               ) : (
                 <TransactionList
                   transactions={filteredTransactions}

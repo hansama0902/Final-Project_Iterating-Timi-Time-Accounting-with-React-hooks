@@ -21,7 +21,7 @@ const GoalProgress = ({ userId, balance }) => {
       </div>
     );
   }
-  
+
   if (!userId) {
     return (
       <div className="goal-no-user">
@@ -34,7 +34,7 @@ const GoalProgress = ({ userId, balance }) => {
     goalAmount > 0 && balance > 0
       ? Math.min((balance / Number(goalAmount)) * 100, 100)
       : 0;
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     handleUpdateGoal(Number(newGoal));
@@ -42,9 +42,10 @@ const GoalProgress = ({ userId, balance }) => {
   };
 
   // Progress status description for screen readers
-  const progressDescription = progress >= 100 
-    ? "Goal achieved!" 
-    : `${Math.round(progress)}% complete, need $${Math.max(0, (goalAmount - balance).toFixed(2))} more to reach goal`;
+  const progressDescription =
+    progress >= 100
+      ? "Goal achieved!"
+      : `${Math.round(progress)}% complete, need $${Math.max(0, (goalAmount - balance).toFixed(2))} more to reach goal`;
 
   return (
     <Card className="goal-card">
@@ -55,27 +56,32 @@ const GoalProgress = ({ userId, balance }) => {
             <span className="goal-achieved-badge">Goal Achieved!</span>
           )}
         </div>
-        
+
         <Row className="goal-info-row">
           <Col md={6} className="goal-amount-col">
             <div className="goal-amount-container">
               <h3 className="goal-amount-label">Target</h3>
               <div className="goal-amount-value">${goalAmount || 0}</div>
               <div className="goal-balance-value">
-                Current Balance: <span className="balance-highlight">${balance.toFixed(2)}</span>
+                Current Balance:{" "}
+                <span className="balance-highlight">${balance.toFixed(2)}</span>
               </div>
             </div>
           </Col>
-          
+
           <Col md={6} className="goal-progress-col">
             <div className="goal-progress-container">
               <div className="progress-header">
-                <h3 id="progress-label" className="progress-label">Progress</h3>
-                <span className="progress-percentage">{Math.round(progress)}%</span>
+                <h3 id="progress-label" className="progress-label">
+                  Progress
+                </h3>
+                <span className="progress-percentage">
+                  {Math.round(progress)}%
+                </span>
               </div>
               <div className="progress">
                 <div
-                  className={`progress-bar ${progress >= 100 ? 'bg-success' : 'bg-primary'}`}
+                  className={`progress-bar ${progress >= 100 ? "bg-success" : "bg-primary"}`}
                   role="progressbar"
                   style={{ width: `${progress}%` }}
                   aria-valuenow={Math.round(progress)}
@@ -90,21 +96,32 @@ const GoalProgress = ({ userId, balance }) => {
               <div className="progress-info">
                 {progress < 100 ? (
                   <span>
-                    Need <strong>${Math.max(0, (goalAmount - balance).toFixed(2))}</strong> more to reach goal
+                    Need{" "}
+                    <strong>
+                      ${Math.max(0, (goalAmount - balance).toFixed(2))}
+                    </strong>{" "}
+                    more to reach goal
                   </span>
                 ) : (
-                  <span className="goal-achieved-text">Goal achieved! Well done!</span>
+                  <span className="goal-achieved-text">
+                    Goal achieved! Well done!
+                  </span>
                 )}
               </div>
             </div>
           </Col>
         </Row>
-        
+
         <div className="goal-update-section">
           {isEditing ? (
             <Form onSubmit={handleSubmit}>
               <Form.Group className="goal-form-group">
-                <Form.Label className="goal-form-label" htmlFor="goal-amount-input">Update Goal Amount</Form.Label>
+                <Form.Label
+                  className="goal-form-label"
+                  htmlFor="goal-amount-input"
+                >
+                  Update Goal Amount
+                </Form.Label>
                 <div className="goal-input-group">
                   <Form.Control
                     id="goal-amount-input"
@@ -117,9 +134,9 @@ const GoalProgress = ({ userId, balance }) => {
                     className="goal-input"
                   />
                   <div className="goal-form-buttons">
-                    <Button 
-                      type="button" 
-                      variant="outline-secondary" 
+                    <Button
+                      type="button"
+                      variant="outline-secondary"
                       className="goal-cancel-button"
                       onClick={() => {
                         setNewGoal(goalAmount || "");
@@ -128,9 +145,9 @@ const GoalProgress = ({ userId, balance }) => {
                     >
                       Cancel
                     </Button>
-                    <Button 
-                      type="submit" 
-                      variant="primary" 
+                    <Button
+                      type="submit"
+                      variant="primary"
                       className="goal-save-button"
                       disabled={!newGoal || newGoal === goalAmount}
                     >

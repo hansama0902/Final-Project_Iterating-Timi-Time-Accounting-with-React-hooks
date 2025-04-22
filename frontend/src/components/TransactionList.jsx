@@ -7,32 +7,33 @@ const TransactionList = ({ transactions, onDelete, onEdit, loading }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all");
   const searchInputRef = useRef(null);
-  
+
   useEffect(() => {
     function handleKeyDown(e) {
       // Press / to focus search
-      if (e.key === '/' && document.activeElement !== searchInputRef.current) {
+      if (e.key === "/" && document.activeElement !== searchInputRef.current) {
         e.preventDefault();
         searchInputRef.current?.focus();
       }
     }
-    
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
-  
-  if (loading) return (
-    <div className="transactions-loading">
-      <div className="spinner"></div>
-      <p>Loading transactions...</p>
-    </div>
-  );
+
+  if (loading)
+    return (
+      <div className="transactions-loading">
+        <div className="spinner"></div>
+        <p>Loading transactions...</p>
+      </div>
+    );
 
   // Filter transactions based on search and filter
-  const filteredTransactions = transactions.filter(transaction => {
+  const filteredTransactions = transactions.filter((transaction) => {
     // Type filter
     if (filterType !== "all" && transaction.type !== filterType) return false;
-    
+
     // Search filter
     if (searchTerm) {
       const searchLower = searchTerm.toLowerCase();
@@ -41,7 +42,7 @@ const TransactionList = ({ transactions, onDelete, onEdit, loading }) => {
         transaction.category.toLowerCase().includes(searchLower)
       );
     }
-    
+
     return true;
   });
 
@@ -63,7 +64,7 @@ const TransactionList = ({ transactions, onDelete, onEdit, loading }) => {
               className="search-input"
             />
           </InputGroup>
-          
+
           <div className="filter-buttons">
             <Button
               variant={filterType === "all" ? "primary" : "outline-primary"}
@@ -97,8 +98,8 @@ const TransactionList = ({ transactions, onDelete, onEdit, loading }) => {
         <div className="no-transactions">
           <p>No transactions found</p>
           <small>
-            {searchTerm || filterType !== "all" 
-              ? "Try adjusting your search or filters" 
+            {searchTerm || filterType !== "all"
+              ? "Try adjusting your search or filters"
               : "Add a transaction to get started"}
           </small>
         </div>
@@ -106,10 +107,11 @@ const TransactionList = ({ transactions, onDelete, onEdit, loading }) => {
         <>
           <div className="transaction-summary">
             <Badge bg="primary" className="transaction-badge">
-              {filteredTransactions.length} Transaction{filteredTransactions.length !== 1 ? 's' : ''}
+              {filteredTransactions.length} Transaction
+              {filteredTransactions.length !== 1 ? "s" : ""}
             </Badge>
           </div>
-          
+
           <div className="table-responsive">
             <Table className="transaction-table">
               <thead>
@@ -124,22 +126,39 @@ const TransactionList = ({ transactions, onDelete, onEdit, loading }) => {
               </thead>
               <tbody>
                 {filteredTransactions.map((transaction) => (
-                  <tr key={transaction._id} className={transaction.type === "income" ? "income-row" : "expense-row"}>
+                  <tr
+                    key={transaction._id}
+                    className={
+                      transaction.type === "income"
+                        ? "income-row"
+                        : "expense-row"
+                    }
+                  >
                     <td>
-                      <Badge 
-                        bg={transaction.type === "income" ? "success" : "danger"}
+                      <Badge
+                        bg={
+                          transaction.type === "income" ? "success" : "danger"
+                        }
                         className="transaction-type-badge"
                       >
                         {transaction.type === "income" ? "INCOME" : "EXPENSE"}
                       </Badge>
                     </td>
                     <td className="category-cell">
-                      <span className="category-text">{transaction.category}</span>
+                      <span className="category-text">
+                        {transaction.category}
+                      </span>
                     </td>
-                    <td className="description-cell">{transaction.description}</td>
-                    <td className={`amount-cell ${
-                      transaction.type === "income" ? "income-amount" : "expense-amount"
-                    }`}>
+                    <td className="description-cell">
+                      {transaction.description}
+                    </td>
+                    <td
+                      className={`amount-cell ${
+                        transaction.type === "income"
+                          ? "income-amount"
+                          : "expense-amount"
+                      }`}
+                    >
                       <span className="amount-prefix">
                         {transaction.type === "income" ? "+" : "-"}
                       </span>
@@ -149,11 +168,14 @@ const TransactionList = ({ transactions, onDelete, onEdit, loading }) => {
                     </td>
                     <td className="date-cell">
                       {transaction.date
-                        ? new Date(transaction.date).toLocaleDateString("en-US", {
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric"
-                          })
+                        ? new Date(transaction.date).toLocaleDateString(
+                            "en-US",
+                            {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                            },
+                          )
                         : "N/A"}
                     </td>
                     <td>
@@ -164,7 +186,7 @@ const TransactionList = ({ transactions, onDelete, onEdit, loading }) => {
                           className="edit-btn"
                           onClick={() => onEdit(transaction)}
                           onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
+                            if (e.key === "Enter" || e.key === " ") {
                               e.preventDefault();
                               onEdit(transaction);
                             }
@@ -179,7 +201,7 @@ const TransactionList = ({ transactions, onDelete, onEdit, loading }) => {
                           className="delete-btn"
                           onClick={() => onDelete(transaction._id)}
                           onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
+                            if (e.key === "Enter" || e.key === " ") {
                               e.preventDefault();
                               onDelete(transaction._id);
                             }

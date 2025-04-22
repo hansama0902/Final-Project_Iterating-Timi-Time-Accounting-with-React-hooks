@@ -136,9 +136,9 @@ export const createUser = async (userName) => {
     const response = await fetch(`${API_URL}/user`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
-        userName, 
-        goalAmount: 5000
+      body: JSON.stringify({
+        userName,
+        goalAmount: 5000,
       }),
     });
 

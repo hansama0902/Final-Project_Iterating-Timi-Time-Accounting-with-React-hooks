@@ -1,5 +1,5 @@
 /* stylesheets/Login.css */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 .login-container {
   display: flex;
@@ -8,7 +8,7 @@
   min-height: 100vh;
   background: linear-gradient(145deg, #f0f3f9, #e3e7f1);
   padding: 20px;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .login-card {
@@ -74,7 +74,7 @@
   border-radius: 8px;
   font-size: 1rem;
   transition: all 0.2s ease;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .autocomplete-input:focus {
@@ -166,7 +166,7 @@
   border-radius: 12px;
   border: none;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .modal-header {
@@ -203,7 +203,7 @@
   .login-card {
     padding: 25px;
   }
-  
+
   .login-title {
     font-size: 1.5rem;
   }
@@ -246,38 +246,38 @@ button:focus {
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 .autocomplete-dropdown {
-    position: absolute;
-    width: 100%;
-    max-height: 200px;
-    overflow-y: auto;
-    background-color: white;
-    border: 1px solid #ced4da;
-    border-radius: 0 0 5px 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-  }
-  
-  .autocomplete-item {
-    padding: 8px 12px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .autocomplete-item:hover,
-  .autocomplete-item.focused {
-    background-color: #f0f0f0;
-  }
-  
-  .autocomplete-input:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-    outline: none;
-  }
-  
-  .login-button:focus,
-  .create-account-button:focus,
-  button:focus {
-    outline: 2px solid #0d6efd;
-    outline-offset: 2px;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-  }
+  position: absolute;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: white;
+  border: 1px solid #ced4da;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.autocomplete-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.focused {
+  background-color: #f0f0f0;
+}
+
+.autocomplete-input:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  outline: none;
+}
+
+.login-button:focus,
+.create-account-button:focus,
+button:focus {
+  outline: 2px solid #0d6efd;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}

@@ -1,9 +1,9 @@
 /* AppHeader.css */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap");
 
 /* Main container */
 .app-container {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;
@@ -80,7 +80,7 @@
 }
 
 /* Feedback messages */
-.no-user-message, 
+.no-user-message,
 .loading-indicator,
 .empty-state {
   text-align: center;
@@ -110,12 +110,12 @@
     align-items: flex-start;
     gap: 1.25rem;
   }
-  
+
   .app-user-section {
     width: 100%;
     justify-content: space-between;
   }
-  
+
   .app-title {
     font-size: 1.8rem;
   }

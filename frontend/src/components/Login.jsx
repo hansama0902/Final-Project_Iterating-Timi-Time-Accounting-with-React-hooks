@@ -34,8 +34,8 @@ const Login = ({ onLogin }) => {
 
   useEffect(() => {
     if (username) {
-      const filtered = userList.filter(user =>
-        user.userName.toLowerCase().includes(username.toLowerCase())
+      const filtered = userList.filter((user) =>
+        user.userName.toLowerCase().includes(username.toLowerCase()),
       );
       setFilteredUsers(filtered);
     } else {
@@ -46,9 +46,9 @@ const Login = ({ onLogin }) => {
 
   useEffect(() => {
     if (dropdownFocusIndex >= 0 && showDropdown && filteredUsers.length > 0) {
-      const focusedItem = document.querySelector('.autocomplete-item.focused');
+      const focusedItem = document.querySelector(".autocomplete-item.focused");
       if (focusedItem && dropdownRef.current) {
-        focusedItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        focusedItem.scrollIntoView({ block: "nearest", behavior: "smooth" });
       }
     }
   }, [dropdownFocusIndex, showDropdown, filteredUsers.length]);
@@ -62,7 +62,7 @@ const Login = ({ onLogin }) => {
 
     try {
       const users = await fetchUsers();
-      const userExists = users.some(user => user.userName === username);
+      const userExists = users.some((user) => user.userName === username);
       if (userExists) {
         onLogin(username, isAdmin);
       } else {
@@ -97,7 +97,7 @@ const Login = ({ onLogin }) => {
       case "ArrowDown":
         e.preventDefault();
         setDropdownFocusIndex((prev) =>
-          prev < filteredUsers.length - 1 ? prev + 1 : prev
+          prev < filteredUsers.length - 1 ? prev + 1 : prev,
         );
         break;
       case "ArrowUp":
@@ -105,7 +105,10 @@ const Login = ({ onLogin }) => {
         setDropdownFocusIndex((prev) => (prev > 0 ? prev - 1 : prev));
         break;
       case "Enter":
-        if (dropdownFocusIndex >= 0 && dropdownFocusIndex < filteredUsers.length) {
+        if (
+          dropdownFocusIndex >= 0 &&
+          dropdownFocusIndex < filteredUsers.length
+        ) {
           e.preventDefault();
           setUsername(filteredUsers[dropdownFocusIndex].userName);
           setShowDropdown(false);
@@ -131,14 +134,20 @@ const Login = ({ onLogin }) => {
         <h1 className="login-title">Timi Time Accounting</h1>
 
         {errorMessage && (
-          <Alert variant="danger" onClose={() => setErrorMessage("")} dismissible>
+          <Alert
+            variant="danger"
+            onClose={() => setErrorMessage("")}
+            dismissible
+          >
             {errorMessage}
           </Alert>
         )}
 
         <Form onSubmit={handleLogin}>
           <Form.Group className="mb-3">
-            <Form.Label className="input-label" htmlFor="username-input">Username</Form.Label>
+            <Form.Label className="input-label" htmlFor="username-input">
+              Username
+            </Form.Label>
             <div className="autocomplete-container">
               <input
                 id="username-input"
@@ -215,7 +224,11 @@ const Login = ({ onLogin }) => {
         </Form>
       </div>
 
-      <Modal show={showCreateModal} onHide={() => setShowCreateModal(false)} centered>
+      <Modal
+        show={showCreateModal}
+        onHide={() => setShowCreateModal(false)}
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Create New User</Modal.Title>
         </Modal.Header>
@@ -244,7 +257,10 @@ const Login = ({ onLogin }) => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="outline-secondary" onClick={() => setShowCreateModal(false)}>
+          <Button
+            variant="outline-secondary"
+            onClick={() => setShowCreateModal(false)}
+          >
             Cancel
           </Button>
           <Button
@@ -261,8 +277,7 @@ const Login = ({ onLogin }) => {
 };
 
 Login.propTypes = {
-  onLogin: PropTypes.func.isRequired
+  onLogin: PropTypes.func.isRequired,
 };
 
 export default Login;
-

@@ -23,7 +23,9 @@ const Dashboard = ({ totalIncome, totalExpenses }) => {
         <Col md={4} className="mb-3">
           <Card className="dashboard-card expense-card">
             <Card.Body>
-              <Card.Title className="dashboard-title">Total Expenses</Card.Title>
+              <Card.Title className="dashboard-title">
+                Total Expenses
+              </Card.Title>
               <Card.Text className="dashboard-amount expense-amount">
                 ${totalExpenses.toFixed(2)}
               </Card.Text>
@@ -40,7 +42,9 @@ const Dashboard = ({ totalIncome, totalExpenses }) => {
                   balance >= 0 ? "balance-positive" : "balance-negative"
                 }`}
               >
-                {balance < 0 ? `−$${Math.abs(balance).toFixed(2)}` : `$${balance.toFixed(2)}`}
+                {balance < 0
+                  ? `−$${Math.abs(balance).toFixed(2)}`
+                  : `$${balance.toFixed(2)}`}
               </Card.Text>
             </Card.Body>
           </Card>

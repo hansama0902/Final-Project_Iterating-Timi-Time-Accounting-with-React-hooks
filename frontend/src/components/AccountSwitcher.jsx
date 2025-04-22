@@ -8,7 +8,9 @@ import "../stylesheets/AccountSwitcher.css";
 const AccountSwitcher = ({ currentUser, onSwitch }) => {
   const [userList, setUserList] = useState([]);
   const [showUserModal, setShowUserModal] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(currentUser || "Select Account");
+  const [selectedUser, setSelectedUser] = useState(
+    currentUser || "Select Account",
+  );
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const dropdownToggleRef = useRef(null);
@@ -49,9 +51,7 @@ const AccountSwitcher = ({ currentUser, onSwitch }) => {
       <div className="account-header">
         <h2 className="account-title">Account Management</h2>
         {selectedUser !== "Select Account" && (
-          <Badge className="current-user-badge">
-            Current: {selectedUser}
-          </Badge>
+          <Badge className="current-user-badge">Current: {selectedUser}</Badge>
         )}
       </div>
 
@@ -129,5 +129,3 @@ AccountSwitcher.propTypes = {
 };
 
 export default AccountSwitcher;
-
-

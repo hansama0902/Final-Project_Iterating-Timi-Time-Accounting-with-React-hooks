@@ -14,7 +14,7 @@ const AddForm = ({
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [isIncome, setIsIncome] = useState(true);
-  
+
   // Refs for keyboard navigation
   const amountInputRef = useRef(null);
   const incomeButtonRef = useRef(null);
@@ -29,7 +29,7 @@ const AddForm = ({
       setDescription(editingTransaction.description);
       setDate(editingTransaction.date?.slice(0, 10));
       setIsIncome(editingTransaction.type === "income");
-      
+
       // Focus amount input when editing
       setTimeout(() => {
         amountInputRef.current?.focus();
@@ -76,28 +76,28 @@ const AddForm = ({
       console.error("Error submitting transaction:", error);
     }
   };
-  
+
   // Handle keyboard navigation in toggle buttons
   const handleIncomeKeyDown = (e) => {
-    if (e.key === 'ArrowRight') {
+    if (e.key === "ArrowRight") {
       e.preventDefault();
       expenseButtonRef.current?.focus();
-    } else if (e.key === 'Enter' || e.key === ' ') {
+    } else if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       setIsIncome(true);
     }
   };
-  
+
   const handleExpenseKeyDown = (e) => {
-    if (e.key === 'ArrowLeft') {
+    if (e.key === "ArrowLeft") {
       e.preventDefault();
       incomeButtonRef.current?.focus();
-    } else if (e.key === 'Enter' || e.key === ' ') {
+    } else if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       setIsIncome(false);
     }
   };
-  
+
   // Handle cancel button with keyboard
   const handleCancel = () => {
     setAmount("");
@@ -113,24 +113,24 @@ const AddForm = ({
       <h2 className="add-form-title">
         {editingTransaction ? "Edit Transaction" : "Add New Transaction"}
       </h2>
-      
+
       <Form onSubmit={handleSubmit} className="add-form-container">
         <div className="toggle-group-wrapper">
           <div className="toggle-group" role="group">
-            <button 
+            <button
               ref={incomeButtonRef}
               type="button"
-              className={`btn ${isIncome ? 'btn-success' : 'btn-outline-success'}`}
+              className={`btn ${isIncome ? "btn-success" : "btn-outline-success"}`}
               onClick={() => setIsIncome(true)}
               onKeyDown={handleIncomeKeyDown}
               tabIndex={0}
             >
               Income
             </button>
-            <button 
+            <button
               ref={expenseButtonRef}
               type="button"
-              className={`btn ${!isIncome ? 'btn-danger' : 'btn-outline-danger'}`}
+              className={`btn ${!isIncome ? "btn-danger" : "btn-outline-danger"}`}
               onClick={() => setIsIncome(false)}
               onKeyDown={handleExpenseKeyDown}
               tabIndex={0}
@@ -158,7 +158,7 @@ const AddForm = ({
               />
             </Form.Group>
           </Col>
-          
+
           <Col md={6}>
             <Form.Group className="add-form-group">
               <Form.Label htmlFor="date-input">Date</Form.Label>
@@ -210,7 +210,7 @@ const AddForm = ({
               className="add-form-cancel-button"
               onClick={handleCancel}
               onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
+                if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
                   handleCancel();
                 }
@@ -220,7 +220,7 @@ const AddForm = ({
               Cancel
             </Button>
           )}
-          
+
           <Button
             ref={submitButtonRef}
             type="submit"
