@@ -1,4 +1,3 @@
-// DateRangeFilter.jsx
 import PropTypes from "prop-types";
 import { Form, Row, Col, Card } from "react-bootstrap";
 import "../stylesheets/DateRangeFilter.css";

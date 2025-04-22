@@ -1,4 +1,3 @@
-// utils/api.js (modified)
 const API_URL = "/api"; // vite
 
 export const fetchTransactions = async (userName) => {

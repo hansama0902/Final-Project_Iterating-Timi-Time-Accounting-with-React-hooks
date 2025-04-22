@@ -1,4 +1,3 @@
-// AddForm.jsx
 import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { Button, Form, Row, Col } from "react-bootstrap";

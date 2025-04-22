@@ -1,4 +1,3 @@
-// TransactionList.jsx
 import { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Table, Button, Badge, Form, InputGroup } from "react-bootstrap";
@@ -10,7 +9,6 @@ const TransactionList = ({ transactions, onDelete, onEdit, loading }) => {
   const searchInputRef = useRef(null);
   
   useEffect(() => {
-    // Add focus trap for keyboard navigation
     function handleKeyDown(e) {
       // Press / to focus search
       if (e.key === '/' && document.activeElement !== searchInputRef.current) {

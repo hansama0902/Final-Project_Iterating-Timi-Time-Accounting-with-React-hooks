@@ -79,12 +79,10 @@ const App = () => {
   return (
     <div className="app-container">
       <header className="app-header">
-        {/* 应用标题区域 */}
         <div className="app-branding">
           <h1 className="app-title">Timi Time Accounting</h1>
         </div>
         
-        {/* 用户区域 */}
         <div className="app-user-section">
           {isAdmin && (
             <div className="account-control-area">
