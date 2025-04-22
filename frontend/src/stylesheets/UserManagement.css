@@ -185,18 +185,21 @@
 }
 
 .delete-button {
-  font-weight: 500;
-  padding: 0.35rem 0.6rem;
-  border-radius: 6px;
-  transition: all 0.3s ease;
-}
-
-.delete-button:hover:not(:disabled) {
-  background-color: #dc3545;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 2px 5px rgba(220, 53, 69, 0.25);
-}
+    font-weight: 500;
+    padding: 0.35rem 0.6rem;
+    border-radius: 6px;
+    color: #a71d2a; /* 更深的红色 */
+    border: 1px solid #a71d2a;
+    background-color: transparent;
+    transition: all 0.3s ease;
+  }
+  
+  .delete-button:hover:not(:disabled) {
+    background-color: #a71d2a;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(167, 29, 42, 0.25);
+  }
 
 .no-users-message {
   display: flex;

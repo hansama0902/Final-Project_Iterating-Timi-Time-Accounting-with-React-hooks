@@ -1,4 +1,3 @@
-/* FinanceChart.css */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
 .finance-chart-container {
@@ -100,7 +99,7 @@
 
 .total-label {
   font-weight: 500;
-  color: #6c757d;
+  color: #495057;
 }
 
 .total-value {
@@ -167,7 +166,7 @@
 .more-categories {
   margin-top: 0.5rem;
   font-size: 0.8rem;
-  color: #6c757d;
+  color: #495057;
   font-style: italic;
   text-align: center;
 }
@@ -184,7 +183,7 @@
   align-items: center;
   justify-content: center;
   height: 300px;
-  color: #6c757d;
+  color: #495057;
   text-align: center;
 }
 
@@ -204,12 +203,12 @@
   .chart-col {
     margin-bottom: 1.5rem;
   }
-  
+
   .chart-summary {
     border-left: none;
     border-top: 4px solid #0d6efd;
   }
-  
+
   .category-name {
     max-width: none;
   }
@@ -220,11 +219,11 @@
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .finance-chart-controls {
     width: 100%;
   }
-  
+
   .chart-toggle-btn {
     flex: 1;
   }

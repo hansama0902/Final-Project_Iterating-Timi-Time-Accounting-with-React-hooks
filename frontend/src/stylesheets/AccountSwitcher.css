@@ -1,4 +1,3 @@
-/* AccountSwitcher.css */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
 .account-switcher {
@@ -11,6 +10,7 @@
   letter-spacing: 0.2px;
 }
 
+/* Header */
 .account-header {
   display: flex;
   justify-content: space-between;
@@ -39,14 +39,19 @@
   border-radius: 2px;
 }
 
+/* Current user badge */
 .current-user-badge {
+  background-color: #0d6efd;
+  color: #ffffff;
   padding: 0.5rem 0.75rem;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.85rem;
   border-radius: 20px;
   letter-spacing: 0.3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+/* Actions row */
 .account-actions {
   display: flex;
   align-items: center;
@@ -57,6 +62,7 @@
   flex: 1;
 }
 
+/* Toggle button */
 .account-toggle {
   width: 100%;
   text-align: left;
@@ -65,8 +71,9 @@
   padding: 0.75rem 1rem;
   border-radius: 8px;
   background-color: #0d6efd;
-  border-color: #0d6efd;
+  border: 1px solid #0d6efd;
   font-weight: 500;
+  color: #ffffff;
   letter-spacing: 0.2px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
@@ -87,35 +94,47 @@
   text-overflow: ellipsis;
 }
 
+/* Dropdown menu */
 .account-menu {
   width: 100%;
   border-radius: 8px;
   padding: 0.5rem 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
   border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-height: 260px;
+  overflow-y: auto;
 }
 
-.account-item {
+/* Dropdown option items */
+.dropdown-option {
   padding: 0.75rem 1rem;
   font-weight: 500;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, color 0.2s;
+  cursor: pointer;
+  outline: none;
 }
 
-.account-item:hover {
+.dropdown-option:hover,
+.dropdown-option:focus {
   background-color: #f8f9fa;
 }
 
-.account-item.active {
-  background-color: #e9f0ff;
-  color: #0d6efd;
+/* ✅ High-contrast active state for accessibility */
+.dropdown-option.active {
+  background-color: #0d6efd; /* Deep blue */
+  color: #ffffff;            /* White text */
+  font-weight: 600;
 }
 
+/* Empty fallback item */
 .account-item-empty {
   padding: 0.75rem 1rem;
   color: #6c757d;
   font-style: italic;
 }
 
+/* Manage Users button */
 .account-button {
   padding: 0.75rem 1rem;
   font-weight: 600;
@@ -131,7 +150,16 @@
   box-shadow: 0 4px 8px rgba(13, 110, 253, 0.25);
 }
 
-/* Responsive styles */
+/* Focus outlines for keyboard navigation */
+.account-toggle:focus,
+.dropdown-option:focus,
+.account-button:focus {
+  outline: 2px solid #0d6efd;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+}
+
+/* Responsive layout */
 @media (max-width: 576px) {
   .account-actions {
     flex-direction: column;
@@ -143,15 +171,4 @@
   }
 }
 
-
-/* 在AccountSwitcher.css中添加以下样式 */
-
-/* 焦点状态样式 */
-.account-toggle:focus,
-.account-item:focus,
-.account-button:focus {
-  outline: 2px solid #0d6efd;
-  outline-offset: 2px;
-  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
-}
 

@@ -1,4 +1,3 @@
-// Login.jsx
 import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { Modal, Form, Button, Alert } from "react-bootstrap";
@@ -17,10 +16,9 @@ const Login = ({ onLogin }) => {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [dropdownFocusIndex, setDropdownFocusIndex] = useState(-1);
 
-  // Refs for keyboard navigation
   const inputRef = useRef(null);
   const dropdownRef = useRef(null);
-  
+
   useEffect(() => {
     const loadUsers = async () => {
       try {
@@ -31,31 +29,25 @@ const Login = ({ onLogin }) => {
         console.error("Error loading users:", error);
       }
     };
-    
     loadUsers();
   }, []);
 
   useEffect(() => {
     if (username) {
-      const filtered = userList.filter(user => 
+      const filtered = userList.filter(user =>
         user.userName.toLowerCase().includes(username.toLowerCase())
       );
       setFilteredUsers(filtered);
     } else {
       setFilteredUsers(userList);
     }
-    
-    // Reset dropdown focus when filtered results change
     setDropdownFocusIndex(-1);
   }, [username, userList]);
-  
-  // Add this effect to handle scrolling
+
   useEffect(() => {
     if (dropdownFocusIndex >= 0 && showDropdown && filteredUsers.length > 0) {
-      // Find the currently focused element
       const focusedItem = document.querySelector('.autocomplete-item.focused');
       if (focusedItem && dropdownRef.current) {
-        // Ensure the element scrolls into view
         focusedItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
       }
     }
@@ -63,7 +55,6 @@ const Login = ({ onLogin }) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    
     if (!username) {
       setErrorMessage("Please enter or select a username");
       return;
@@ -72,7 +63,6 @@ const Login = ({ onLogin }) => {
     try {
       const users = await fetchUsers();
       const userExists = users.some(user => user.userName === username);
-      
       if (userExists) {
         onLogin(username, isAdmin);
       } else {
@@ -85,45 +75,36 @@ const Login = ({ onLogin }) => {
   };
 
   const handleCreateUser = async () => {
-    if (!newUsername) {
-      return;
-    }
+    if (!newUsername) return;
 
     try {
       await createUser(newUsername);
       setShowCreateModal(false);
       setNewUsername("");
       setNewIsAdmin(false);
-      
       const users = await fetchUsers();
       setUserList(users);
-      
       onLogin(newUsername, newIsAdmin);
     } catch (error) {
       console.error("Error creating user:", error);
     }
   };
-  
-  // Handle keyboard navigation in dropdown
+
   const handleInputKeyDown = (e) => {
     if (!showDropdown || filteredUsers.length === 0) return;
-    
+
     switch (e.key) {
-      case 'ArrowDown':
+      case "ArrowDown":
         e.preventDefault();
-        setDropdownFocusIndex(prevIndex => 
-          prevIndex < filteredUsers.length - 1 ? prevIndex + 1 : prevIndex
+        setDropdownFocusIndex((prev) =>
+          prev < filteredUsers.length - 1 ? prev + 1 : prev
         );
         break;
-        
-      case 'ArrowUp':
+      case "ArrowUp":
         e.preventDefault();
-        setDropdownFocusIndex(prevIndex => 
-          prevIndex > 0 ? prevIndex - 1 : prevIndex
-        );
+        setDropdownFocusIndex((prev) => (prev > 0 ? prev - 1 : prev));
         break;
-        
-      case 'Enter':
+      case "Enter":
         if (dropdownFocusIndex >= 0 && dropdownFocusIndex < filteredUsers.length) {
           e.preventDefault();
           setUsername(filteredUsers[dropdownFocusIndex].userName);
@@ -131,17 +112,14 @@ const Login = ({ onLogin }) => {
           setDropdownFocusIndex(-1);
         }
         break;
-        
-      case 'Escape':
+      case "Escape":
         e.preventDefault();
         setShowDropdown(false);
         setDropdownFocusIndex(-1);
         break;
-        
-      case 'Tab':
+      case "Tab":
         setShowDropdown(false);
         break;
-        
       default:
         break;
     }
@@ -151,13 +129,13 @@ const Login = ({ onLogin }) => {
     <div className="login-container">
       <div className="login-card">
         <h1 className="login-title">Timi Time Accounting</h1>
-        
+
         {errorMessage && (
           <Alert variant="danger" onClose={() => setErrorMessage("")} dismissible>
             {errorMessage}
           </Alert>
         )}
-        
+
         <Form onSubmit={handleLogin}>
           <Form.Group className="mb-3">
             <Form.Label className="input-label" htmlFor="username-input">Username</Form.Label>
@@ -166,6 +144,10 @@ const Login = ({ onLogin }) => {
                 id="username-input"
                 ref={inputRef}
                 type="text"
+                role="combobox"
+                aria-haspopup="listbox"
+                aria-controls="autocomplete-list"
+                aria-expanded={showDropdown}
                 className="form-control autocomplete-input"
                 placeholder="Type to search users..."
                 value={username}
@@ -177,15 +159,22 @@ const Login = ({ onLogin }) => {
                 onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
                 onKeyDown={handleInputKeyDown}
               />
+
               {showDropdown && filteredUsers.length > 0 && (
-                <div 
+                <div
+                  id="autocomplete-list"
                   className="autocomplete-dropdown"
                   ref={dropdownRef}
+                  role="listbox"
+                  tabIndex={0}
+                  aria-label="User suggestions"
                 >
                   {filteredUsers.map((user, index) => (
-                    <div 
-                      key={user.userName} 
-                      className={`autocomplete-item ${index === dropdownFocusIndex ? 'focused' : ''}`}
+                    <div
+                      key={user.userName}
+                      className={`autocomplete-item ${index === dropdownFocusIndex ? "focused" : ""}`}
+                      role="option"
+                      aria-selected={index === dropdownFocusIndex}
                       onClick={() => {
                         setUsername(user.userName);
                         setShowDropdown(false);
@@ -199,7 +188,7 @@ const Login = ({ onLogin }) => {
               )}
             </div>
           </Form.Group>
-          
+
           <Form.Group className="mb-4">
             <Form.Check
               type="checkbox"
@@ -210,17 +199,13 @@ const Login = ({ onLogin }) => {
               className="admin-checkbox"
             />
           </Form.Group>
-          
+
           <div className="btn-group-vertical w-100">
-            <Button 
-              variant="primary" 
-              type="submit" 
-              className="login-button"
-            >
+            <Button variant="primary" type="submit" className="login-button">
               Login
             </Button>
-            <Button 
-              variant="secondary" 
+            <Button
+              variant="secondary"
               onClick={() => setShowCreateModal(true)}
               className="create-account-button"
             >
@@ -247,7 +232,6 @@ const Login = ({ onLogin }) => {
                 autoFocus
               />
             </Form.Group>
-            
             <Form.Group className="mb-3">
               <Form.Check
                 id="new-admin-checkbox"
@@ -260,14 +244,11 @@ const Login = ({ onLogin }) => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button 
-            variant="outline-secondary" 
-            onClick={() => setShowCreateModal(false)}
-          >
+          <Button variant="outline-secondary" onClick={() => setShowCreateModal(false)}>
             Cancel
           </Button>
-          <Button 
-            variant="primary" 
+          <Button
+            variant="primary"
             onClick={handleCreateUser}
             disabled={!newUsername}
           >
@@ -284,3 +265,4 @@ Login.propTypes = {
 };
 
 export default Login;
+

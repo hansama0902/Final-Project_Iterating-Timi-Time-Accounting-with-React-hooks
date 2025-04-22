@@ -45,8 +45,8 @@
 }
 
 .goal-achieved-badge {
-  background-color: #28a745;
-  color: white;
+  background-color: #1e7e34; 
+  color: #ffffff;
   font-size: 0.75rem;
   font-weight: 600;
   padding: 0.35rem 0.75rem;
@@ -156,7 +156,7 @@
 }
 
 .goal-achieved-text {
-  color: #28a745;
+  color: #1e7e34;
   font-weight: 600;
 }
 

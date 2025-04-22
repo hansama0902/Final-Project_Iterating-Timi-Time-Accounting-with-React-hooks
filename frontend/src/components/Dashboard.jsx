@@ -40,7 +40,7 @@ const Dashboard = ({ totalIncome, totalExpenses }) => {
                   balance >= 0 ? "balance-positive" : "balance-negative"
                 }`}
               >
-                ${balance.toFixed(2)}
+                {balance < 0 ? `−$${Math.abs(balance).toFixed(2)}` : `$${balance.toFixed(2)}`}
               </Card.Text>
             </Card.Body>
           </Card>

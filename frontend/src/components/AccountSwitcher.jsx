@@ -8,18 +8,17 @@ import "../stylesheets/AccountSwitcher.css";
 const AccountSwitcher = ({ currentUser, onSwitch }) => {
   const [userList, setUserList] = useState([]);
   const [showUserModal, setShowUserModal] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(
-    currentUser || "Select Account"
-  );
+  const [selectedUser, setSelectedUser] = useState(currentUser || "Select Account");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
   const dropdownToggleRef = useRef(null);
   const manageButtonRef = useRef(null);
-  
+
   const loadUsers = async () => {
     try {
       const users = await fetchUsers();
       const userNames = users.map((user) => user.userName);
       setUserList(userNames);
-      console.log("Loaded users:", userNames);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -32,13 +31,16 @@ const AccountSwitcher = ({ currentUser, onSwitch }) => {
   const handleSwitch = (user) => {
     setSelectedUser(user);
     onSwitch(user);
+    setDropdownOpen(false); // ✅ close menu after selection
   };
-  
+
   const handleKeyDown = (e, user) => {
-    // Enter or Space key to select user
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       handleSwitch(user);
+    } else if (e.key === "Escape") {
+      e.preventDefault();
+      setDropdownOpen(false);
     }
   };
 
@@ -47,42 +49,49 @@ const AccountSwitcher = ({ currentUser, onSwitch }) => {
       <div className="account-header">
         <h2 className="account-title">Account Management</h2>
         {selectedUser !== "Select Account" && (
-          <Badge bg="info" className="current-user-badge">
+          <Badge className="current-user-badge">
             Current: {selectedUser}
           </Badge>
         )}
       </div>
 
       <div className="account-actions">
-        <Dropdown className="account-dropdown">
-          <Dropdown.Toggle 
-            variant="primary" 
+        <Dropdown
+          className="account-dropdown"
+          show={dropdownOpen}
+          onToggle={(isOpen) => setDropdownOpen(isOpen)}
+        >
+          <Dropdown.Toggle
+            variant="primary"
             className="account-toggle"
             ref={dropdownToggleRef}
             aria-label="Select User Account"
+            aria-haspopup="listbox"
+            aria-expanded={dropdownOpen}
           >
-            <i className="fa fa-user-circle"></i>
+            <i className="fa fa-user-circle" aria-hidden="true"></i>
             <span className="toggle-text">{selectedUser}</span>
           </Dropdown.Toggle>
-          <Dropdown.Menu className="account-menu">
+
+          <Dropdown.Menu className="account-menu" role="listbox">
             {userList.length > 0 ? (
               userList.map((user) => (
-                <Dropdown.Item
+                <div
                   key={user}
+                  role="option"
+                  aria-selected={user === selectedUser}
+                  tabIndex={0}
+                  className={`account-item dropdown-option ${user === selectedUser ? "active" : ""}`}
                   onClick={() => handleSwitch(user)}
                   onKeyDown={(e) => handleKeyDown(e, user)}
-                  active={user === selectedUser}
-                  className="account-item"
-                  tabIndex={0}
-                  aria-selected={user === selectedUser}
                 >
                   {user}
-                </Dropdown.Item>
+                </div>
               ))
             ) : (
-              <Dropdown.Item disabled className="account-item-empty">
+              <div className="account-item-empty" aria-disabled="true">
                 No Users Available
-              </Dropdown.Item>
+              </div>
             )}
           </Dropdown.Menu>
         </Dropdown>
@@ -120,3 +129,5 @@ AccountSwitcher.propTypes = {
 };
 
 export default AccountSwitcher;
+
+
