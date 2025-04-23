@@ -175,7 +175,7 @@ Stores individual financial transactions.
 
 ### 1k synthetic records
 
-![Screenshot6](https://raw.githubusercontent.com/hansama0902/Project3-Full-stack-application-with-React-hooks-_Timi-Time-Accounting/main/screenshot/screen6.png)
+![Screenshot6](https://raw.githubusercontent.com/hansama0902/Final-Project_Iterating-Timi-Time-Accounting-with-React-hooks/main/screenshot/screen6.png)
 
 ---
 
