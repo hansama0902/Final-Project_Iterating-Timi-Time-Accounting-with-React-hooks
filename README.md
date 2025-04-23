@@ -175,7 +175,7 @@ Stores individual financial transactions.
 
 ### 1k synthetic records
 
-![Screenshot6](https://raw.githubusercontent.com/hansama0902/Project3-Full-stack-application-with-React-hooks-_Timi-Time-Accounting/main/screenshot/screen6.png)
+![Screenshot6](https://raw.githubusercontent.com/hansama0902/Final-Project_Iterating-Timi-Time-Accounting-with-React-hooks/main/screenshot/screen6.png)
 
 ---
 
@@ -260,10 +260,11 @@ Visit the project at: [Final-Project-full-stack-application-with-reac-hansama090
 
 ## Resourse
 
-1.[Video](https://youtu.be/17Cz_8BwXJw)  
+1.[Video](https://youtu.be/vRR_ZdEJkT4)  
 2.[Design Doc](https://github.com/hansama0902/Project3-Full-stack-application-with-React-hooks-_Timi-Time-Accounting/blob/main/Design%20Document/Design%20Document_TimiTimeAccounting%20.pdf)  
 3.[Slides](https://docs.google.com/presentation/d/1hs0jHp_RIUyCkfcKPJZbuiJy0dwSl38H9EwXYTE8oII/edit?usp=sharing)  
-4.[Usability Study Report](https://docs.google.com/document/d/1Pq6A6j-7QdMqDjPWv0GQyermOHRfypaKux8AZSGBRKU/edit?usp=sharing)
+4.[Usability Study Report](https://docs.google.com/document/d/1Pq6A6j-7QdMqDjPWv0GQyermOHRfypaKux8AZSGBRKU/edit?usp=sharing)  
+5.[Figma](https://www.figma.com/design/7wlJFyCrYhhax9ZyISNC7m/Timi-Time-Accounting?node-id=0-1&t=8itmMNrW7JSj62Pk-0)
 
 ---
 
