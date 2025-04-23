@@ -259,7 +259,8 @@ Visit the project at: [project3-full-stack-application-with-reac-hansama0902s-pr
 
 1.[Video](https://youtu.be/17Cz_8BwXJw)  
 2.[Design Doc](https://github.com/hansama0902/Project3-Full-stack-application-with-React-hooks-_Timi-Time-Accounting/blob/main/Design%20Document/Design%20Document_TimiTimeAccounting%20.pdf)  
-3.[Slides](https://docs.google.com/presentation/d/1hs0jHp_RIUyCkfcKPJZbuiJy0dwSl38H9EwXYTE8oII/edit?usp=sharing)
+3.[Slides](https://docs.google.com/presentation/d/1hs0jHp_RIUyCkfcKPJZbuiJy0dwSl38H9EwXYTE8oII/edit?usp=sharing)  
+4.[Usability Study Report](https://docs.google.com/document/d/1Pq6A6j-7QdMqDjPWv0GQyermOHRfypaKux8AZSGBRKU/edit?usp=sharing)
 
 ---
 
