@@ -20,9 +20,8 @@ Instructor: John Alexis Guerra Gómez [Profile](https://johnguerra.co/)
 
 ## Project Screenshot
 
-![Screenshot1](https://raw.githubusercontent.com/hansama0902/Project3-Full-stack-application-with-React-hooks-_Timi-Time-Accounting/1978fc45719c795f8517db4f77c778ff96d647ad/screenshot/screen1.png)
 
-![Screenshot2](https://raw.githubusercontent.com/hansama0902/Project3-Full-stack-application-with-React-hooks-_Timi-Time-Accounting/1978fc45719c795f8517db4f77c778ff96d647ad/screenshot/screen2.png)
+![Screenshot1(https://raw.githubusercontent.com/hansama0902/Project3-Full-stack-application-with-React-hooks-_Timi-Time-Accounting/1978fc45719c795f8517db4f77c778ff96d647ad/screenshot/screen1.png](https://raw.githubusercontent.com/hansama0902/Final-Project_Iterating-Timi-Time-Accounting-with-React-hooks/main/screenshot/screen1.png)
 
 ![Screenshot3](https://raw.githubusercontent.com/hansama0902/Project3-Full-stack-application-with-React-hooks-_Timi-Time-Accounting/1978fc45719c795f8517db4f77c778ff96d647ad/screenshot/screen3.png)
 
