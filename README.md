@@ -20,7 +20,6 @@ Instructor: John Alexis Guerra Gómez [Profile](https://johnguerra.co/)
 
 ## Project Screenshot
 
-
 ![Screenshot1](https://raw.githubusercontent.com/hansama0902/Final-Project_Iterating-Timi-Time-Accounting-with-React-hooks/main/screenshot/screen1.png)
 
 ![Screenshot2](https://raw.githubusercontent.com/hansama0902/Final-Project_Iterating-Timi-Time-Accounting-with-React-hooks/main/screenshot/screen2.png)
